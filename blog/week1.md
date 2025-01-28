@@ -250,10 +250,6 @@
         [x : Nat] abs x --> x
         [x : Nat] abs (- x) --> x.
         ```
-   - Vectors
-        ```
-
-        ```
    - Other Expressions
         ```
         g : A -> A.
