@@ -98,7 +98,7 @@
          
         Since I have installed the relevant tools before, I chose to reinstall, but the error still occurred. After searching, I need to add the ```cl.exe``` file to the system environment variables. Edit the system environment variable **PATH** and add the path variable value  
         ```
-        D:\Program\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.42.34433\bin\Hostx64\x64;
+        D:\Program\Microsoft Visual Studio\2022\VC\Tools\MSVC\14.42.34433\bin\Hostx64\x64
         ```
         Then the problem is solved.
       * Cannot open include file: "string.h"
