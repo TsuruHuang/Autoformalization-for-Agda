@@ -1,4 +1,3 @@
-1.20 - 1.26
 # Topic: Learning Dedukti
 1. Preparation Work
    - Install Related Applications
