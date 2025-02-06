@@ -8,16 +8,16 @@
 
 ### **2. Background**  
 **Relevance and Motivation**  
-Formalizing mathematics into code (e.g., Agda) is critical for theorem proving, verification, and AI-driven reasoning. However, manual formalization is time-consuming and error-prone. While autoformalization has advanced for systems like Lean and Isabelle, Agda—a dependently typed language with strict syntax—remains understudied. This project addresses this gap by developing a bidirectional translation system between natural language (e.g., English and Swedish) and Agda using LLMs. Its success would lower the barrier to using proof assistants, enhance educational tools, and streamline mathematical research workflows.
+Formalizing mathematics into code (e.g., Agda) is critical for theorem proving, verification, and AI-driven reasoning. However, manual formalization is time-consuming and error-prone. While autoformalization has advanced for systems like Lean and Isabelle, Agda—a dependently typed language with strict syntax—remains understudied. This project addresses this gap by developing a bidirectional translation system between natural language (e.g., English and Swedish) and Agda using LLMs. The system integrates both large language models (LLMs) and Grammatical frameworks (GF) to generate synthetic data. This dual approach aims to mitigate the data scarcity issue inherent to Agda and to enhance the robustness of the translation. The success of this project would lower the barrier to using proof assistants, improve educational tools, and streamline mathematical research workflows.
 
 ---
 
 ### **3. Aim**  
 **Primary Objectives**  
-1. Construct datasets of aligned natural language and Agda code pairs.  
-2. Fine-tune multilingual LLMs (e.g., Llama 3.2) for bidirectional translation (formalization and informalization).  
-3. Evaluating system performance with robust metrics and benchmarks.  
-4. Building a prototype system to demonstrate practical usability.  
+1. Construct datasets of aligned natural language and Agda code pairs using both LLM-assisted synthesis and computational grammar-based data generation. 
+2. Fine-tune multilingual LLMs (e.g., Llama 3.2) for bidirectional translation (formalization and informalization).   
+3. Evaluat system performance with robust metrics and benchmarks.  
+4. Develop a prototype system to demonstrate practical usability.  
 
 ---
 
@@ -56,7 +56,7 @@ Limitations are imposed to ensure feasibility within the MSc timeframe while del
    - **Symbolic Informalization (GF)**: 
       - Adapt formal system data (e.g., Lean, Coq or Isabelle) to Agda syntax, enriching the current dataset.
       - Use symbolic informalization with Grammatical Framework (GF) to create natural language sentences equivalents to formal Agda expressions.
-   - **LLM-Assisted Formalization**: Use GPT-4o, DeepSeek or other LLMs to generate to generate informal data from formal Agda code, creating another dataset of aligned formal-informal pairs.  
+   - **LLM-Assisted Formalization**: Use GPT-o1, DeepSeek or other LLMs to generate to generate informal data from formal Agda code, creating another dataset of aligned formal-informal pairs.  
    - **Data Augmentation**: Expand datasets using back-translation and MMA dataset integration.  
 
 2. **Model Training**  
