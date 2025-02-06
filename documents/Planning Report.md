@@ -109,3 +109,8 @@ Limitations are imposed to ensure feasibility within the MSc timeframe while del
 - **Week 12**: Experiments completed.  
 - **Week 15**: Evaluation and comparative analysis completed.  
 - **Week 20**: Final thesis report submitted.  
+
+### **References**
+1.	Ranta, A. (2024). Towards Multilingual Autoformalization and Informalization of Mathematics. *Proceedings of the Swedish Language Technology Conference (SLTC) 2024.*
+2.	Wu, Y., Jiang, A. Q., Li, W., Rabe, M. N., & Szegedy, C. (2022). Autoformalization with Large Language Models. *arXiv preprint arXiv:2205.12615.*
+3.	Jiang, A. Q., Li, W., Jamnik, M. (2023). Multilingual Mathematical Autoformalization. *arXiv preprint arXiv:2311.03755.*
