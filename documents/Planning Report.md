@@ -8,7 +8,7 @@
 
 ### **2. Background**  
 **Relevance and Motivation**  
-Formalizing mathematics into code (e.g., Agda) is critical for theorem proving, verification, and AI-driven reasoning. However, manual formalization is time-consuming and error-prone. While autoformalization has advanced for systems like Lean and Isabelle, Agda—a dependently typed language with strict syntax—remains understudied. This project addresses this gap by developing a bidirectional translation system between natural language (e.g., English and Swedish) and Agda using LLMs. The system integrates both large language models (LLMs) and Grammatical frameworks (GF) to generate synthetic data. This dual approach aims to mitigate the data scarcity issue inherent to Agda and to enhance the robustness of the translation. The success of this project would lower the barrier to using proof assistants, improve educational tools, and streamline mathematical research workflows.
+Formalizing mathematics into code (e.g., Agda[1]) is critical for theorem proving, verification, and AI-driven reasoning. However, manual formalization is time-consuming and error-prone. While autoformalization has advanced for systems like Lean and Isabelle, Agda—a dependently typed language with strict syntax—remains understudied. This project addresses this gap by developing a bidirectional translation system between natural language (e.g., English and Swedish) and Agda using LLMs. The system integrates both large language models (LLMs) and Grammatical frameworks (GF) to generate synthetic data. This dual approach aims to mitigate the data scarcity issue inherent to Agda and to enhance the robustness of the translation. The success of this project would lower the barrier to using proof assistants, improve educational tools, and streamline mathematical research workflows.
 
 ---
 
@@ -34,7 +34,7 @@ Autoformalization for Agda faces three core challenges:
 - What metrics best evaluate the accuracy and usability of bidirectional translation systems?  
 
 **Theoretical Context**  
-Previous work, such as the Informatah project, demonstrated the effectiveness of symbolic informationization with the Grammatical Framework (GF) in translating between natural language and formal languages, with supporting multiple languages [1].  In addition, Autoformalization with Large Language Models shows that automated formalization using LLMs of informally given natural language statements is generally possible, even under the condition that the language models not trained for the Autoformalization task [2].  Similarly, Multilingual Mathematical Autoformalization (MMA) datasets show the efficacy of training LLMs for tasks in various formal systems, including Isabelle and Lean [3].  
+Previous work, such as the Informatah project, demonstrated the effectiveness of symbolic informationization with the Grammatical Framework (GF) in translating between natural language and formal languages, with supporting multiple languages [2].  In addition, Autoformalization with Large Language Models shows that automated formalization using LLMs of informally given natural language statements is generally possible, even under the condition that the language models not trained for the Autoformalization task [3].  Similarly, Multilingual Mathematical Autoformalization (MMA) datasets show the efficacy of training LLMs for tasks in various formal systems, including Isabelle and Lean [4].  
 
 ---
 
@@ -111,6 +111,7 @@ Limitations are imposed to ensure feasibility within the MSc timeframe while del
 - **Week 20**: Final thesis report submitted.  
 
 ### **References**
-1.	Ranta, A. (2024). Towards Multilingual Autoformalization and Informalization of Mathematics. *Proceedings of the Swedish Language Technology Conference (SLTC) 2024.*
-2.	Wu, Y., Jiang, A. Q., Li, W., Rabe, M. N., & Szegedy, C. (2022). Autoformalization with Large Language Models. *arXiv preprint arXiv:2205.12615.*
-3.	Jiang, A. Q., Li, W., Jamnik, M. (2023). Multilingual Mathematical Autoformalization. *arXiv preprint arXiv:2311.03755.*
+1. Norell, U., James C. (2009). Dependently typed programming in Agda. *Proceedings of the 4th international workshop on Types in language design and implementation*.
+2.	Ranta, A. (2024). Towards Multilingual Autoformalization and Informalization of Mathematics. *Proceedings of the Swedish Language Technology Conference (SLTC) 2024.*
+3.	Wu, Y., Jiang, A. Q., Li, W., Rabe, M. N., & Szegedy, C. (2022). Autoformalization with Large Language Models. *arXiv preprint arXiv:2205.12615.*
+4.	Jiang, A. Q., Li, W., Jamnik, M. (2023). Multilingual Mathematical Autoformalization. *arXiv preprint arXiv:2311.03755.*
