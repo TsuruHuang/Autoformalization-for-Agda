@@ -34,7 +34,7 @@ Autoformalization for Agda faces three core challenges:
 - What metrics best evaluate the accuracy and usability of bidirectional translation systems?  
 
 **Theoretical Context**  
-Previous work, such as the Informatah project, demonstrated the effectiveness of symbolic informationization with the Grammar Framework (GF) in translating between natural language and formal languages, with supporting multiple languages [1].  In addition, Autoformalization with Large Language Models shows that automated formalization using LLMs of informally given natural language statements is generally possible, even under the condition that the language models not trained for the Autoformalization task [2].  Similarly, Multilingual Mathematical Autoformalization (MMA) datasets show the efficacy of training LLMs for tasks in various formal systems, including Isabelle and Lean [3].  
+Previous work, such as the Informatah project, demonstrated the effectiveness of symbolic informationization with the Grammatical Framework (GF) in translating between natural language and formal languages, with supporting multiple languages [1].  In addition, Autoformalization with Large Language Models shows that automated formalization using LLMs of informally given natural language statements is generally possible, even under the condition that the language models not trained for the Autoformalization task [2].  Similarly, Multilingual Mathematical Autoformalization (MMA) datasets show the efficacy of training LLMs for tasks in various formal systems, including Isabelle and Lean [3].  
 
 ---
 
