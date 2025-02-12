@@ -4,13 +4,11 @@
 ### **1. Preliminary Title**  
 **Bridging Multiple Natural Languages and Agda: Autoformalization Using Large Language Models**  
 
----
 
 ### **2. Background**  
 **Relevance and Motivation**  
 Formalizing mathematics into code (e.g., Agda[1]) is critical for theorem proving, verification, and AI-driven reasoning. However, manual formalization is time-consuming and error-prone. While autoformalization has advanced for systems like Lean and Isabelle, Agda—a dependently typed language with strict syntax—remains understudied. This project addresses this gap by developing a bidirectional translation system between natural language (e.g., English and Swedish) and Agda using LLMs. The system integrates both large language models (LLMs) and Grammatical frameworks (GF) to generate synthetic data. This dual approach aims to mitigate the data scarcity issue inherent to Agda and to enhance the robustness of the translation. The success of this project would lower the barrier to using proof assistants, improve educational tools, and streamline mathematical research workflows.
 
----
 
 ### **3. Aim**  
 **Primary Objectives**  
@@ -19,7 +17,6 @@ Formalizing mathematics into code (e.g., Agda[1]) is critical for theorem provin
 3. Evaluat system performance with robust metrics and benchmarks.  
 4. Develop a prototype system to demonstrate practical usability.  
 
----
 
 ### **4. Problem Formulation**  
 **Extended Scientific Problem Definition**  
@@ -36,7 +33,6 @@ Autoformalization for Agda faces three core challenges:
 **Theoretical Context**  
 Previous work, such as the Informatah project, demonstrated the effectiveness of symbolic informationization with the Grammatical Framework (GF) in translating between natural language and formal languages, with supporting multiple languages [2].  In addition, Autoformalization with Large Language Models shows that automated formalization using LLMs of informally given natural language statements is generally possible, even under the condition that the language models not trained for the Autoformalization task [3].  Similarly, Multilingual Mathematical Autoformalization (MMA) datasets show the efficacy of training LLMs for tasks in various formal systems, including Isabelle and Lean [4].  
 
----
 
 ### **5. Limitations**  
 Certain aspects will not be covered in this thesis due to time and computational constraints:
@@ -48,7 +44,6 @@ Certain aspects will not be covered in this thesis due to time and computational
 **Rationale**  
 Limitations are imposed to ensure feasibility within the MSc timeframe while delivering a functional prototype.  
 
----
 
 ### **6. Methodology**  
 **Workflow Overview**  
@@ -73,7 +68,6 @@ Limitations are imposed to ensure feasibility within the MSc timeframe while del
    - **Qualitative**: User surveys with Agda developers to assess usability.  
    - **Comparative Analysis**: Compare our models with existing systems like MMA-trained models. 
 
----
 
 ### **7. Risk Analysis and Ethical Considerations**  
 **Technical Risks**  
@@ -88,7 +82,6 @@ Limitations are imposed to ensure feasibility within the MSc timeframe while del
 - **Data Privacy**: Using only publicly available datasets to avoid proprietary information issues.
 - **Transparency**: Clearly documenting dataset sources and model limitations.  
 
----
 
 ### **8. Time Plan**  
 | **Week** | **Topic**                                | **Details**                                                                 |
@@ -104,11 +97,12 @@ Limitations are imposed to ensure feasibility within the MSc timeframe while del
 | 16-20    | Report Writing                           | Document findings, write final thesis report, and prepare presentation.    |
 
 **Milestones**  
-- **Week 3**: Completion of tool installations.  
+- **Week 6**: Completion of tool installations and hardware preparation.  
 - **Week 9**: Dataset preparation finalized.  
 - **Week 12**: Experiments completed.  
 - **Week 15**: Evaluation and comparative analysis completed.  
 - **Week 20**: Final thesis report submitted.  
+
 
 ### **References**
 1. Norell, U., James C. (2009). Dependently typed programming in Agda. *Proceedings of the 4th international workshop on Types in language design and implementation*.
