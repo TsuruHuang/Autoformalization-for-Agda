@@ -61,8 +61,8 @@
 ![alt text](image-14.png)
 
 
-- **Base Line**
-**Evaluate** 
+- **Base Line**  
+**Evaluate**  
     "predict_bleu-4": 6.442691916859122,  
     "predict_model_preparation_time": 0.006,  
     "predict_rouge-1": 25.68689907621247,  
