@@ -72,4 +72,23 @@
     "predict_samples_per_second": 0.217,  
     "predict_steps_per_second": 0.109   
 **Case Stduy**  
-![alt text](image-15.png)
+![alt text](image-15.png)  
+
+Translate the following English statement into Lean. NoLabel_19. For all integers $x$, if $x$ is even, then the difference of the product of $5$ and $x$ and $3$ is odd.  
+Please imitate the input and output examples and output in the specified format. Give me the output only.  
+Example1:  
+Input: Translate the following French statement into Coq. Prop70. Nous pouvons démontrer que $1$ est impair.  
+Output: Axiom prop70 : odd 1 .  
+Example2:  
+Input: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even.  
+Output: postulate prop80 : even 2  
+
+Groud Turth (Lean): axiom noLabel_19 : ∀ x : Int, (even x → odd (5 * x - 3))  
+Groud Turth (Agda): postulate noLabel_19 : all Int (\\ x -> if (even x) (odd (minus (times 5 x) 3)))  
+Groud Turth (Dedukti): noLabel_19 : Proof (forall Int (x => if (even x) (odd (minus (times (nd 5) x) (nd 3)))))  
+Groud Turth (Coq): Axiom noLabel_19 : forall x : Int, (even x -> odd (5 * x - 3))  
+
+Model output (Lean): Axiom NoLabel_19 : ∀ x -> (even x -> odd ((5 * x) - 3))
+Model output (Agda): Axiom noLabel_19 : {x : Int} -> (even x) -> odd ((5 * x) - 3) .
+Model output (Dedukti): axiom NoLabel_19 : ∀ x -> (even x) → odd (minus (times 5 x) 3)  
+Model output (Coq): Axiom NoLabel_19 : forall (x : int), even x -> odd (-(mult (s O) x) - s O).  
