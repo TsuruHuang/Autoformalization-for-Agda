@@ -44,4 +44,3 @@
       + Open the .agda file, press ```Ctrl+C``` at the same time on the keyboard, and then press ```Ctrl+L```. If there is no error, it means that Agda has been installed correctly.
 2. Grammar of Agda
     - {- comment -}  or --comment
-    - 
