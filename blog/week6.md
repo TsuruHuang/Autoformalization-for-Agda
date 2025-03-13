@@ -1,6 +1,6 @@
 - **With All Formal Language and All Nature Language** 
 **Training**
-![alt text](image-7.png)
+![alt text](.\images\image-7.png)
 **Evaluate**  
 "predict_bleu-4": 100.0,  
 "predict_model_preparation_time": 0.0043,  
@@ -11,12 +11,12 @@
 "predict_samples_per_second": 1.772,  
 "predict_steps_per_second": 0.886  
 **Case Stduy**
-![alt text](image-8.png)
+![alt text](.\images\image-8.png)
 
 
 - **With All Formal Language and English Only**
 **Training**
-![alt text](image-9.png)
+![alt text](.\images\image-9.png)
 **Evaluate**  
 "predict_bleu-4": 100.0,  
 "predict_model_preparation_time": 0.0042,  
@@ -27,12 +27,12 @@
 "predict_samples_per_second": 1.821,  
 "predict_steps_per_second": 0.914  
 **Case Stduy**
-![alt text](image-10.png)
+![alt text](.\images\image-10.png)
 
 
 - **With Agda Only and All Nature Language** 
 **Training**
-![alt text](image-11.png)
+![alt text](.\images\image-11.png)
 **Evaluate**  
 "predict_bleu-4": 100.0,  
 "predict_model_preparation_time": 0.0041,  
@@ -43,11 +43,11 @@
 "predict_samples_per_second": 1.767,  
 "predict_steps_per_second": 0.888  
 **Case Stduy**
-![alt text](image-12.png)
+![alt text](.\images\image-12.png)
 
 - **With Agda Only and English Only** 
 **Training**
-![alt text](image-13.png)
+![alt text](.\images\image-13.png)
 **Evaluate**   
 "predict_bleu-4": 99.75275753424657,  
 "predict_model_preparation_time": 0.0042,  
@@ -58,7 +58,7 @@
 "predict_samples_per_second": 1.747,  
 "predict_steps_per_second": 0.886  
 **Case Stduy**
-![alt text](image-14.png)
+![alt text](.\images\image-14.png)
 
 
 - **Base Line**  
@@ -72,7 +72,7 @@
     "predict_samples_per_second": 0.217,  
     "predict_steps_per_second": 0.109   
 **Case Stduy**  
-![alt text](image-15.png)  
+![alt text](.\images\image-15.png)  
 **Evaluate (base on exx-gflean_base_test.json, 866)**  
     "predict_bleu-4": 49.10165150115473,  
     "predict_model_preparation_time": 0.0046,  
