@@ -73,6 +73,16 @@
     "predict_steps_per_second": 0.109   
 **Case Stduy**  
 ![alt text](image-15.png)  
+**Evaluate (base on exx-gflean_base_test.json, 866)**  
+    "predict_bleu-4": 49.10165150115473,  
+    "predict_model_preparation_time": 0.0046,  
+    "predict_rouge-1": 68.58384168591223,  
+    "predict_rouge-2": 42.13732713625866,  
+    "predict_rouge-l": 61.680377598152425,  
+    "predict_runtime": 555.2538,  
+    "predict_samples_per_second": 1.56,  
+    "predict_steps_per_second": 0.78  
+
 
 Translate the following English statement into Lean. NoLabel_19. For all integers $x$, if $x$ is even, then the difference of the product of $5$ and $x$ and $3$ is odd.  
 Please imitate the input and output examples and output in the specified format. Give me the output only.  
@@ -89,6 +99,6 @@ Groud Turth (Dedukti): noLabel_19 : Proof (forall Int (x => if (even x) (odd (mi
 Groud Turth (Coq): Axiom noLabel_19 : forall x : Int, (even x -> odd (5 * x - 3))  
 
 Model output (Lean): Axiom NoLabel_19 : ∀ x -> (even x -> odd ((5 * x) - 3))
-Model output (Agda): Axiom noLabel_19 : {x : Int} -> (even x) -> odd ((5 * x) - 3) .
+Model output (Agda): Axiom noLabel_19 : {x : Int} -> (even x) -> odd ((5 * x) - 3) .  
 Model output (Dedukti): axiom NoLabel_19 : ∀ x -> (even x) → odd (minus (times 5 x) 3)  
 Model output (Coq): Axiom NoLabel_19 : forall (x : int), even x -> odd (-(mult (s O) x) - s O).  
