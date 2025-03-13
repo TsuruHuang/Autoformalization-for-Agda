@@ -17,10 +17,10 @@ for entry in data:
         if lang_key in entry:
             for sentence in entry[lang_key]:#[:1]: # Select the first 2 natural language expressions
                 for formal_lang, formal_expr in [
-                    #("Dedukti", entry["dedukti"]),
+                    ("Dedukti", entry["dedukti"]),
                     ("Agda", entry["agda"]),
-                    #("Coq", entry["coq"]),
-                    #("Lean", entry["lean"]),
+                    ("Coq", entry["coq"]),
+                    ("Lean", entry["lean"]),
                 ]:
                     formatted_data.append({
                         "instruction": f"Translate the following {lang_values} statement into {formal_lang}. Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:').\nExample1: \nInput: Translate the following French statement into Coq. Prop70. Nous pouvons démontrer que $1$ est impair. \nOutput: Axiom prop70 : odd 1 . \nExample2: \nInput: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. \nOutput: postulate prop80 : even 2  ",
@@ -40,8 +40,8 @@ else:
 train_set = formatted_data[:train_size]
 test_set = formatted_data[train_size:train_size + test_size]
 
-train_set_name = "full_data_train_agda_small.json"
-test_set_name = "full_data_test_agda_small.json"
+train_set_name = "full_data_base_train_small.json"
+test_set_name = "full_data_base_test_small.json"
 
 with open(train_set_name, "w", encoding="utf-8") as f:
     json.dump(train_set, f, ensure_ascii=False, indent=2)
