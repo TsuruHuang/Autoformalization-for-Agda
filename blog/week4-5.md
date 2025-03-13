@@ -22,12 +22,12 @@
 llamafactory-cli webui  
 
 **Training**
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
+![alt text](.\images\image-2.png)
+![alt text](.\images\image-3.png)
+![alt text](.\images\image-4.png)
 
 **Evaluate**
-![alt text](image-1.png)
+![alt text](.\images\image-1.png)
 
 **Predict Metrics**  
   predict_bleu-4                 =    72.7232  
@@ -40,5 +40,5 @@ llamafactory-cli webui
   predict_steps_per_second       =      0.684  
 
 **Case Study**  
-![alt text](image-5.png)
-![alt text](image-6.png)
+![alt text](.\images\image-5.png)
+![alt text](.\images\image-6.png)
