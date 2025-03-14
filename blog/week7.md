@@ -166,6 +166,15 @@ For example:
     "predict_runtime": 555.2538,  
     "predict_samples_per_second": 1.56,  
     "predict_steps_per_second": 0.78  
+**On full_data_base_test_small (1000)**  
+    "predict_bleu-4": 44.6324079,
+    "predict_model_preparation_time": 0.0046,
+    "predict_rouge-1": 70.38556460000001,
+    "predict_rouge-2": 44.739966100000004,
+    "predict_rouge-l": 55.14778449999999,
+    "predict_runtime": 3282.1455,
+    "predict_samples_per_second": 0.305,
+    "predict_steps_per_second": 0.152
 ---------------
 
 - **Mini-matita Dataset with First 2 English Expressions Only (9036)**  
@@ -256,8 +265,15 @@ For example:
     "predict_runtime": 6064.2227,  
     "predict_samples_per_second": 0.283,  
     "predict_steps_per_second": 0.142    
-**On matita_dk_test_all_small (1000)：**  
-    TBD  
+**On matita_dk_test_all_small (1000)：**   
+    "predict_bleu-4": 99.4821114,  
+    "predict_model_preparation_time": 0.0048,  
+    "predict_rouge-1": 99.95444260000001,  
+    "predict_rouge-2": 99.91427589999999,  
+    "predict_rouge-l": 99.69647719999999,  
+    "predict_runtime": 3414.1794,  
+    "predict_samples_per_second": 0.293,  
+    "predict_steps_per_second": 0.146   
 **On test_all (base on exx-gflean.jsonl, 866)：**  
     "predict_bleu-4": 39.48515473441108,  
     "predict_model_preparation_time": 0.006,  
@@ -289,7 +305,14 @@ For example:
     "predict_samples_per_second": 0.268,  
     "predict_steps_per_second": 0.134   
 **On matita_dk_test_agda_small (1000)：**  
-    TBD  
+    "predict_bleu-4": 97.54678700000001,  
+    "predict_model_preparation_time": 0.0046,  
+    "predict_rouge-1": 99.43870449999999,  
+    "predict_rouge-2": 99.21518549999999,  
+    "predict_rouge-l": 98.4380527,  
+    "predict_runtime": 4306.9304,  
+    "predict_samples_per_second": 0.232,  
+    "predict_steps_per_second": 0.116    
 **On test_agda (base on exx-gflean.jsonl, 217)：**  
     "predict_bleu-4": 44.94135161290322,  
     "predict_model_preparation_time": 0.0048,  
@@ -313,7 +336,23 @@ For example:
 
 - **Full Data with Single English Expressions Only (12618)**  
 **On full_data_test_eng_single (1402)：**  
-**On full_data_test_all_small (1000)：**  
+    "predict_bleu-4": 99.30126611982882,  
+    "predict_model_preparation_time": 0.0044,  
+    "predict_rouge-1": 99.7330488587732,  
+    "predict_rouge-2": 99.63951319543507,  
+    "predict_rouge-l": 99.50832596291013,  
+    "predict_runtime": 3952.0767,  
+    "predict_samples_per_second": 0.355,  
+    "predict_steps_per_second": 0.177  
+**On full_data_test_all_small (1000)：**   
+    "predict_bleu-4": 96.6946638,  
+    "predict_model_preparation_time": 0.0048,  
+    "predict_rouge-1": 98.4579211,  
+    "predict_rouge-2": 97.03359300000001,  
+    "predict_rouge-l": 97.42303760000001,  
+    "predict_runtime": 3002.3888,  
+    "predict_samples_per_second": 0.333,  
+    "predict_steps_per_second": 0.167  
 ---------------
 
 - **Full Data with Agda and Single English Expressions Only (3154)**  
@@ -342,6 +381,7 @@ For example:
 | **Base Line** | mini-matita_base_test_small (1000) | 44.55 (0.00%) | 68.99 (0.00%) | 43.69 (0.00%) | 56.62 (0.00%) |
 |  | matita_dk_base_test_small (1000) | 45.36 (0.00%) | 71.20 (0.00%) | 45.94 (0.00%) | 51.46 (0.00%) |
 |  | exx-gflean_base_test (866) | 49.10 (0.00%) | 68.58 (0.00%) | 42.13 (0.00%) | 61.68 (0.00%) |
+|  | full_data_base_test_small (1000) | 44.63 (0.00%) | 70.39 (0.00%) | 44.74 (0.00%) | 55.15 (0.00%) |
 | **M_exx-gflean_all** | mini-matita_test_all_small (1000) | 61.79 (+38.72%) | 82.81 (+20.04%) | 63.88 (+46.23%) | 72.43 (+27.97%) |
 |  | mini-matita_test_agda_eng_small (1000) | 67.77 (+52.14%) | 85.78 (+24.35%) | 71.63 (+63.96%) | 78.48 (+38.64%) |
 |  | matita_dk_test_all_small (1000) | 38.97 (-14.09%) | 76.29 (+7.15%) | 48.07 (+4.64%) | 53.13 (+3.25%) |
@@ -363,14 +403,14 @@ For example:
 |  | test_agda (217) | 73.73 (+50.16%) | 85.39 (+24.51%) | 69.26 (+64.40%) | 80.64 (+30.73%) |
 |  | matita_dk_test_agda_small (1000) | 61.52 (+35.63%) | 81.49 (+14.45%) | 55.16 (+20.07%) | 68.79 (+33.68%) |
 | **M_matita_dk_eng_first2** | matita_dk_test_eng_fisrt2 (1717) | 99.18 (+118.65%) | 99.90 (+40.31%) | 99.85 (+117.35%) | 99.53 (+93.41%) |
-|  | matita_dk_test_all_small (1000) |  |  |  |  |
+|  | matita_dk_test_all_small (1000) | 99.48 (+119.31%) | 99.95 (+40.38%) | 99.91 (+117.48%) | 99.70 (+93.74%) |
 |  | test_all (866) | 39.49 (-19.57%) | 63.37 (-7.60%) | 34.56 (-17.97%) | 50.54 (-18.06%) |
 |  | mini-matita_test_all_small (1000) | 62.02 (+39.21%) | 81.34 (+17.90%) | 67.37 (+54.20%) | 73.47 (+29.76%) |
 | **M_matita_dk_agda_eng_first2** | matita_dk_test_agda_eng_fisrt2 (251) | 99.86 (+120.15%) | 99.87 (+40.27%) | 99.57 (+116.74%) | 99.79 (+93.92%) |
-|  | matita_dk_test_agda_small (1000) |  |  |  |  |
+|  | matita_dk_test_agda_small (1000) | 97.55 (+115.06%) | 99.44 (+39.66%) | 99.22 (+115.98%) | 98.44 (+91.29%) |
 |  | test_agda (217) | 44.94 (-8.47%) | 66.01 (-3.75%) | 32.27 (-23.40%) | 56.56 (-8.30%) |
 |  | mini-matita_test_agda_small (1000) | 66.94 (+50.26%) | 82.84 (+20.08%) | 69.50 (+59.08%) | 79.64 (+40.66%) |
-| **M_full_data_all_eng_single** | full_data_test_eng_single (1402) |  |  |  |  |
-|  | full_data_test_all_small (1000) |  |  |  |  |
-| **M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.63 | 99.17 | 98.92 | 98.86 |
-|  | full_data_test_agda_small (1000) | 94.95 | 97.46 | 95.98 | 96.72 |
+| **M_full_data_eng_single** | full_data_test_eng_single (1402) |  99.30 (+122.50%) | 99.73 (+38.47%) | 99.64 (+114.53%) | 99.51 (+75.38%) |
+|  | full_data_test_all_small (1000) | 96.69 (+116.65%) | 98.46 (+39.89%) | 97.03 (+116.88%) | 97.42 (+76.65%) |
+| **M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.63 (+120.99%) | 99.17 (+40.90%) | 98.92 (+121.10%) | 98.86 (+79.26%) |
+|  | full_data_test_agda_small (1000) | 94.95 (+112.75%) | 97.46 (+38.47%) | 95.98 (+114.53%) | 96.72 (+75.38%) |
