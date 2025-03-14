@@ -178,9 +178,9 @@ For example:
 ---------------
 
 - **Mini-matita Dataset with First 2 English Expressions Only (9036)**  
-**Training**
+**Training**  
 ![alt text](./images/M_mini-matita_eng_first2_training_loss.png)
-**Evaluation**
+**Evaluation**  
 **On mini-matita_test_eng_first2 (1004)：**  
     "predict_bleu-4": 99.84682719123506,  
     "predict_model_preparation_time": 0.0065,  
@@ -220,9 +220,9 @@ For example:
 ---------------
 
 - **Mini-matita Dataset with Agda and First 2 English Expressions Only (2259)** 
-**Training**
+**Training**  
 ![alt text](./images/M_mini-matita_agda_eng_first2_training_loss.png)
-**Evaluation**  
+**Evaluation**   
 **On mini-matita_test_agda_eng_first2 (251)**  
     "predict_bleu-4": 99.86192390438248,  
     "predict_model_preparation_time": 0.0044,  
@@ -262,9 +262,9 @@ For example:
 ---------------
 
 - **Matita_dk Dataset with First 2 English Expressions Only (15451)**  
-**Training**
+**Training**  
 ![alt text](./images/M_matita_dk_eng_first2_training_loss.png)
-**Evaluation**
+**Evaluation**  
 **On matita_dk_test_eng_fisrt2 (1717)：**  
     "predict_bleu-4": 99.17982591729762,  
     "predict_model_preparation_time": 0.0046,  
@@ -304,9 +304,9 @@ For example:
 ---------------
 
 - **Matita_dk Dataset with Agda and First 2 English Expressions Only (3862)**  
-**Training**
+**Training**  
 ![alt text](./images/M_matita_dk_agda_eng_first2_training_loss.png)
-**Evaluation**
+**Evaluation**  
 **On matita_dk_test_agda_eng_fisrt2 (430)：**  
     "predict_bleu-4": 98.98817279069769,  
     "predict_model_preparation_time": 0.0048,  
@@ -347,9 +347,9 @@ For example:
 
 
 - **Full Data with Single English Expressions Only (12618)**  
-**Training**
+**Training**  
 ![alt text](./images/M_full_data_eng_single_training_loss.png)
-**Evaluation**
+**Evaluation**  
 **On full_data_test_eng_single (1402)：**  
     "predict_bleu-4": 99.30126611982882,  
     "predict_model_preparation_time": 0.0044,  
@@ -370,10 +370,10 @@ For example:
     "predict_steps_per_second": 0.167  
 ---------------
 
-- **Full Data with Agda and Single English Expressions Only (3154)**  
-**Training**
+- **Full Data with Agda and Single English Expressions Only (3154)**   
+**Training**  
 ![alt text](./images/M_full_data_agda_eng_single_training_loss.png)
-**Evaluation**
+**Evaluation**  
 **On full_data_test_eng_single (351)：**  
     "predict_bleu-4": 98.63343532763533,  
     "predict_model_preparation_time": 0.0047,  
