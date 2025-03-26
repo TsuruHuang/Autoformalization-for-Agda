@@ -1,129 +1,21 @@
 {
-  "full_data_base_test_small": {
-    "file_name": "full_data_base_test_small.json"
+  "full_data_test_agda_eng": {
+    "file_name": "full_data_test_agda_eng.json"
+  },
+  "full_data_train_agda_eng": {
+    "file_name": "full_data_train_agda_eng.json"
   },
   "full_data_test_agda_small": {
     "file_name": "full_data_test_agda_small.json"
   },
-  "full_data_test_all_small": {
-    "file_name": "full_data_test_all_small.json"
+  "full_data_base_test_agda_eng_single": {
+    "file_name": "full_data_base_test_agda_eng_single.json"
   },
-  "Autoformalization_full_data_test_agda_eng_single": {
-    "file_name": "Autoformalization_full_data_test_agda_eng_single.json"
+  "full_data_test_agda_eng_single": {
+    "file_name": "full_data_test_agda_eng_single.json"
   },
-  "Autoformalization_full_data_test_eng_single": {
-    "file_name": "Autoformalization_full_data_test_eng_single.json"
-  },
-  "Autoformalization_full_data_train_agda_eng_single": {
-    "file_name": "Autoformalization_full_data_train_agda_eng_single.json"
-  },
-  "Autoformalization_full_data_train_eng_single": {
-    "file_name": "Autoformalization_full_data_train_eng_single.json"
-  },
-  "matita_dk_test_agda_small": {
-    "file_name": "matita_dk_test_agda_small.json"
-  },
-  "matita_dk_test_agda_eng_first2": {
-    "file_name": "matita_dk_test_agda_eng_first2.json"
-  },
-  "matita_dk_train_agda_eng_first2": {
-    "file_name": "matita_dk_train_agda_eng_first2.json"
-  },
-  "matita_dk_base_test_small": {
-    "file_name": "matita_dk_base_test_small.json"
-  },
-  "mini-matita_base_test_small": {
-    "file_name": "mini-matita_base_test_small.json"
-  },
-  "mini-matita_test_agda_small": {
-    "file_name": "mini-matita_test_agda_small.json"
-  },
-  "mini-matita_train_agda_eng_first2": {
-    "file_name": "mini-matita_train_agda_eng_first2.json"
-  },
-  "mini-matita_test_agda_eng_first2": {
-    "file_name": "mini-matita_test_agda_eng_first2.json"
-  },
-  "mini-matita_train_eng_single": {
-    "file_name": "mini-matita_train_eng_single.json"
-  },
-  "mini-matita_test_eng_single": {
-    "file_name": "mini-matita_test_eng_single.json"
-  },
-  "matita_dk_test_eng_fisrt2": {
-    "file_name": "matita_dk_test_eng_fisrt2.json"
-  },
-  "matita_dk_train_eng_fisrt2": {
-    "file_name": "matita_dk_train_eng_fisrt2.json"
-  },
-  "exx-gflean_base_test": {
-    "file_name": "exx-gflean_base_test.json"
-  },
-  "mini-matita_test_agda_eng_small": {
-    "file_name": "mini-matita_test_agda_eng_small.json"
-  },
-  "mini-matita_train_eng_first2": {
-    "file_name": "mini-matita_train_eng_first2.json"
-  },
-  "mini-matita_test_eng_first2": {
-    "file_name": "mini-matita_test_eng_first2.json"
-  },
-  "mini-matita_test_all_small_eng": {
-    "file_name": "mini-matita_test_all_small_eng.json"
-  },
-  "mini-matita_test_all_small_agda": {
-    "file_name": "mini-matita_test_all_small_agda.json"
-  },
-  "mini-matita_test_all_small_agda_eng": {
-    "file_name": "mini-matita_test_all_small_agda_eng.json"
-  },
-  "matita_dk_train_all_small": {
-    "file_name": "matita_dk_train_all_small.json"
-  },
-  "matita_dk_test_all_small": {
-    "file_name": "matita_dk_test_all_small.json"
-  },
-  "matita_dk_train_all": {
-    "file_name": "matita_dk_train_all.json"
-  },
-  "matita_dk_test_all": {
-    "file_name": "matita_dk_test_all.json"
-  },
-  "mini-matita_train_all_small": {
-    "file_name": "mini-matita_train_all_small.json"
-  },
-  "mini-matita_test_all_small": {
-    "file_name": "mini-matita_test_all_small.json"
-  },
-  "mini-matita_train_all": {
-    "file_name": "mini-matita_train_all.json"
-  },
-  "mini-matita_test_all": {
-    "file_name": "mini-matita_test_all.json"
-  },
-  "train_all_eng": {
-    "file_name": "train_all_eng.json"
-  },
-  "test_all_eng": {
-    "file_name": "test_all_eng.json"
-  },
-  "train_all": {
-    "file_name": "train_all.json"
-  },
-  "test_all": {
-    "file_name": "test_all.json"
-  },
-  "train_agda_eng": {
-    "file_name": "train_agda_eng.json"
-  },
-  "test_agda_eng": {
-    "file_name": "test_agda_eng.json"
-  },
-  "train_agda": {
-    "file_name": "train_agda.json"
-  },
-  "test_agda": {
-    "file_name": "test_agda.json"
+  "full_data_train_agda_eng_single": {
+    "file_name": "full_data_train_agda_eng_single.json"
   },
   "identity": {
     "file_name": "identity.json"
