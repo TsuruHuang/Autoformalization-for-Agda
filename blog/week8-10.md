@@ -244,19 +244,19 @@ N/A
 |  | checked_full_eng_agda (697) | 24.12 | 71.27 | 41.68 | 53.27 | 115 (16.50%)|
 | **Qwen2.5-7B-M_full_data_agda_eng** | full_data_test_agda_eng (3185) | 99.29 | 99.92 | 99.87 | 99.60 | 84 (2.64%)|
 |  | checked_full_eng_agda (697) | 26.31 | 73.76 | 44.95 | 55.53 | 106 (15.21%)|
-| **Qwen2.5-7B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328) | 98.44 | 98.83 | 97.87 | 98.80 | 82 (25%)|
+| **Qwen2.5-7B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328/82) | 98.44 | 98.83 | 97.87 | 98.80 | 82 (100%)|
 | **Meta-Llama-3.1-8B-M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.67 | 99.43 | 99.10 | 98.94 | 11 (3.13%) |
 |  | full_data_test_agda_small (1000) | 96.23 | 97.82 | 96.64 | 97.52 | 92 (0.92%)|
 |  | checked_full_eng_agda (697) | 23.34 | 71.72 | 41.29 | 52.42 | 197 (28.26%)|
 | **Meta-Llama-3.1-8B-M_full_data_agda_eng** | full_data_test_agda_eng (3185) | 99.29 | 99.90 | 99.86 | 99.60 | 103 (3.23%)|
 |  | checked_full_eng_agda (697) | 26.12 | 73.25 | 44.52 | 54.98 | 91 (13.06%)|
-| **Meta-Llama-3.1-8B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328) | 96.80 | 98.00 | 96.55 | 97.48 | 82 (25%)|
+| **Meta-Llama-3.1-8B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328/82) | 96.80 | 98.00 | 96.55 | 97.48 | 82 (100%)|
 | **Llama-3.2-1B-M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.29 | 99.29 | 98.91 | 98.67 | 18 (5.13%) |
 |  | full_data_test_agda_small (1000) | 80.45 | 89.32 | 82.94 | 85.50 | 361 (36.1%)|
 |  | checked_full_eng_agda (697) | 19.86 | 68.22 | 38.24 | 48.38 | 224 (32.14%)|
 | **Llama-3.2-1B-M_full_data_agda_eng** | full_data_test_agda_eng (3185) | 99.23 | 99.89 | 99.84 | 99.55 | 99 (3.11%)|
 |  | checked_full_eng_agda (697) | 25.63 | 73.01 | 43.94 | 54.28 | 96 (13.77%)|
-| **Llama-3.2-1B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328) | 96.98 | 98.09 | 96.80 | 97.89 | 82 (25%)|
+| **Llama-3.2-1B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328/82) | 96.98 | 98.09 | 96.80 | 97.89 | 82 (100%)|
 
 ``` ghc
 runghc-9.4.8 CheckAgdaSyntax.hs <exx.agda | grep "ERROR" | tee >(wc -l | awk '{print "ERROR count: " $1}')
