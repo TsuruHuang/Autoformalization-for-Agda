@@ -235,8 +235,10 @@ N/A
 | **Qwen2.5-7B** | full_data_base_test_agda_eng_single (351) | 51.20 | 75.08 | 53.36 | 60.12 | 294 (83.76%)|
 | **Qwen2-7B-Chat-M_full_data_eng_single** | full_data_test_eng_single (1402/355) | 99.30 | 99.73 | 99.64 | 99.51 | 11 (3.10%)|
 |  | full_data_test_all_small (1000/244) | 96.69 | 98.46 | 97.03 | 97.42 | 18 (7.38%)|
+|  | checked_full_eng_agda (697) |  |  |  |  | |
 | **Qwen2-7B-Chat-M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.63 | 99.17 | 98.92 | 98.86 | 16 (4.56%)|
 |  | full_data_test_agda_small (1000) | 94.95 | 97.46 | 95.98 | 96.72 | 113 (11.3%)|
+|  | checked_full_eng_agda (697) |  |  |  |  | |
 | **Qwen2.5-7B-M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.62 | 99.45 | 99.11 | 98.95 | 10 (2.85%) |
 |  | full_data_test_agda_small (1000) | 94.85 | 97.22 | 95.80 | 96.59  | 111 (11.1%)|
 |  | checked_full_eng_agda (697) | 24.12 | 71.27 | 41.68 | 53.27 | 115 (16.50%)|
