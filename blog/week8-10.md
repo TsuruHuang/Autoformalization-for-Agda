@@ -258,6 +258,10 @@ N/A
 |  | checked_full_eng_agda (697) | 25.63 | 73.01 | 43.94 | 54.28 | 96 (13.77%)|
 | **Llama-3.2-1B-M_checked_eng_lastsplit** | checked_test_eng_lastsplit (328/82) | 96.98 | 98.09 | 96.80 | 97.89 | 82 (100%)|
 
+
+Score = 0.5 * (1 - ERROR%) * 100 + 0.2 * BLUE-4 + 0.1 * （ROUGE-1 + ROUGE-2 + ROUGE-L）
+
+
 ``` ghc
 runghc-9.4.8 CheckAgdaSyntax.hs <exx.agda | grep "ERROR" | tee >(wc -l | awk '{print "ERROR count: " $1}')
 ```
