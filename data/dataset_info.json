@@ -1,4 +1,13 @@
 {
+  "checked_full_eng_agda": {
+    "file_name": "checked_full_eng_agda.json"
+  },
+  "checked_test_eng_lastsplit": {
+    "file_name": "checked_test_eng_lastsplit.json"
+  },
+  "checked_train_eng_lastsplit": {
+    "file_name": "checked_train_eng_lastsplit.json"
+  },
   "full_data_test_agda_eng": {
     "file_name": "full_data_test_agda_eng.json"
   },
