@@ -1,7 +1,7 @@
-import json
+import random
 
-input_files = ["E:\Project\data\exx-gflean.jsonl", "E:\Project\data\matita_dk.jsonl", "E:\Project\data\mini-matita.jsonl"]  # 替换为你的文件名
-output_file = "E:\Project\data\Autoformalization_full_data.jsonl"
+input_files = ["E:\Project\main\data\exx-gflean.jsonl", "E:\Project\main\data\matita_dk.jsonl", "E:\Project\main\data\mini-matita.jsonl", "E:\Project\main\data\checked.jsonl"]
+output_file = r"E:\Project\main\data\full_data_v2.jsonl"
 
 with open(output_file, "w", encoding="utf-8") as outfile:
     for file in input_files:
