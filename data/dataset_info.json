@@ -1,30 +1,27 @@
 {
-  "checked_full_eng_agda": {
-    "file_name": "checked_full_eng_agda.json"
+  "full_data_v2_test_agda_eng_first1": {
+    "file_name": "full_data_v2_test_agda_eng_first1.json"
   },
-  "checked_test_eng_lastsplit": {
-    "file_name": "checked_test_eng_lastsplit.json"
+  "full_data_v2_test_agda_first1": {
+    "file_name": "full_data_v2_test_agda_first1.json"
   },
-  "checked_train_eng_lastsplit": {
-    "file_name": "checked_train_eng_lastsplit.json"
+  "full_data_v2_test_eng_first1": {
+    "file_name": "full_data_v2_test_eng_first1.json"
   },
-  "full_data_test_agda_eng": {
-    "file_name": "full_data_test_agda_eng.json"
+  "full_data_v2_test_full_first1": {
+    "file_name": "full_data_v2_test_full_first1.json"
   },
-  "full_data_train_agda_eng": {
-    "file_name": "full_data_train_agda_eng.json"
+  "full_data_v2_train_agda_eng_first1": {
+    "file_name": "full_data_v2_train_agda_eng_first1.json"
   },
-  "full_data_test_agda_small": {
-    "file_name": "full_data_test_agda_small.json"
+  "full_data_v2_train_agda_first1": {
+    "file_name": "full_data_v2_train_agda_first1.json"
   },
-  "full_data_base_test_agda_eng_single": {
-    "file_name": "full_data_base_test_agda_eng_single.json"
+  "full_data_v2_train_eng_first1": {
+    "file_name": "full_data_v2_train_eng_first1.json"
   },
-  "full_data_test_agda_eng_single": {
-    "file_name": "full_data_test_agda_eng_single.json"
-  },
-  "full_data_train_agda_eng_single": {
-    "file_name": "full_data_train_agda_eng_single.json"
+  "full_data_v2_train_full_first1": {
+    "file_name": "full_data_v2_train_full_first1.json"
   },
   "identity": {
     "file_name": "identity.json"
