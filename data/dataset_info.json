@@ -1,4 +1,40 @@
 {
+  "full_data_v2_base_agda_eng_first1": {
+    "file_name": "full_data_v2_base_agda_eng_first1.json"
+  },
+  "proofnet_test_lean_test_formal_statement_nl_statement_Dedukti": {
+    "file_name": "proofnet_test_lean_test_formal_statement_nl_statement_Dedukti.json"
+  },
+  "proofnet_test_lean_test_formal_statement_nl_statement": {
+    "file_name": "proofnet_test_lean_test_formal_statement_nl_statement.json"
+  },
+  "parallel-informath_test_agda": {
+    "file_name": "parallel-informath_test_agda.json"
+  },
+  "parallel-informath_test_agda_eng": {
+    "file_name": "parallel-informath_test_agda_eng.json"
+  },
+  "parallel-informath_test_eng": {
+    "file_name": "parallel-informath_test_eng.json"
+  },
+  "parallel-informath_test_full": {
+    "file_name": "parallel-informath_test_full.json"
+  },
+  "parallel-informath_train_agda": {
+    "file_name": "parallel-informath_train_agda.json"
+  },
+  "parallel-informath_train_agda_eng": {
+    "file_name": "parallel-informath_train_agda_eng.json"
+  },
+  "parallel-informath_train_eng": {
+    "file_name": "parallel-informath_train_eng.json"
+  },
+  "parallel-informath_train_full": {
+    "file_name": "parallel-informath_train_full.json"
+  },
+  "parallel-informath_full": {
+    "file_name": "parallel-informath_full.json"
+  },
   "full_data_v2_test_agda_eng_first1": {
     "file_name": "full_data_v2_test_agda_eng_first1.json"
   },
