@@ -1,0 +1,186 @@
+irrationalTimes : (r : Elem Rat) -> Proof (Neq r 0) -> (x : Elem Irr) -> Proof (irrational (times r x)) .
+leq : (alpha : Elem) -> (beta : Elem) -> Prop .
+noOrder : Proof (not (exists Order)) .
+norm : (z : Elem Complex) -> Elem Real .
+def length2 : (z : Elem Complex) -> Proof (Eq (abs z) 1) -> Proof (Eq (plus (square (abs (plus 1 z))) (square (abs (minus 1 z)))) (plus (square (real (div (plus 1 z) (abs (plus 1 z)))) + (square (imag (div (plus 1 z) (abs (plus 1 z)))))) (plus (square (real (div (minus 1 z) (abs (minus 1 z)))) + (square (imag (div (minus 1 z) (abs (minus 1 z))))))) .
+normPlusNormMinus : (x : Elem Vector) -> (y : Elem Vector) -> Proof (Eq (plus (square (norm x)) (square (norm y))) (plus (square (norm (vectorPlus x y))) (square (norm (vectorMinus x y))))) .
+k : Elem Nat .\nx : Elem (Vector k) .\ny : Elem (Vector k) .\nproof (Eq k 1) -> proof (Neq y 0) -> Proof (Neq (dotProduct x y) 0) .
+separated : (A : Set) -> (B : Set) -> Proof (and (closed A) (closed B)) -> Proof (disjoint A B) -> Proof (exists (x : Elem X) (exists (y : Elem X) (and (in A x) (in B y)))) .
+countableBase : (K : MetricSpace) -> Proof (compact K) -> Proof (exists Countable (base K)) .
+E : Subset Real^k\nP : Set\ncondensationPoints : E -> Set\natMostCountablyMany : (x : Elem E) -> Proof (not (member x P)) -> Proof (exists Nat (n => and (Leq n (cardinality E)) (forall (x : Elem E) => or (member x P) (Eq n (cardinality (filter (lambda x => not (member x P)) E)))))) .
+openSet : Set -> Proof (exists (u : Union (atMostCountable (Segment))) (equalset (openSet) u)) .
+proof (limit (n -> infinity) (minus (sqrt (plus (square n) n)) n) (Eq (div 1 2))) .
+def limsup : (x : Elem Real) -> Elem Real := x => thm58 x .
+converges : (a : Elem Nat) -> Proof (exists Nat (n => a_n)) -> Proof (converges (sum a_n)) -> Proof (converges (sum (div (sqrt a_n) n))) .
+cauchyProduct : (x : Elem Series) -> (y : Elem Series) -> Proof (and (convergent x) (convergent y)) -> Proof (absolutelyConvergent (cauchyProduct x y)) .
+intersectionPoint : (En : Set) -> Proof (Sequence En) -> Proof (forall n : Elem Nat, subseteq En (En (plus n 1))) -> Proof (converges (diameter En) 0) -> Proof (Eq (cardinality (intersection En)) 1) .
+f : Elem Real -> Elem Real .
+closed : (f : Elem Real -> Elem MetricSpace) -> Proof (continuous f) -> Proof (closed (zeroSet f)) .
+equalset : (X : Set) -> (Y : Set) -> Set -> Prop .
+exists E : Set -> exists f : Elem Real -> (x : Elem E -> Proof (continuous f)) -> Proof (not (exists g : Elem Real -> Proof (continuous g) -> Proof (forall x : Elem E -> Eq (g x) (f x)))) .
+f : (x : Elem Real) -> Elem Real .
+uniformlyContinuous : (f : Elem X -> Elem Y) -> Proof (uniformlyContinuous f) -> (x : Elem (CauchySeq X)) -> Proof (CauchySeq (map f x)) .
+monotonicity : (f : Elem ContinuousOpenMap Real Real) -> Proof (monotone f) .
+delta : Elem Real .
+constant : (f : Elem Real -> Elem Real) -> Proof (forall Real (x => forall Real (y => Leq (abs (minus (f x) (f y))) (pow (minus x y) 2)))) -> Proof (constant f) .
+oneToOne : (g : Elem Real -> Elem Real) -> (M : Elem Real) -> (x : Elem Real) -> (y : Elem Real) -> Proof (Leq (abs (minus (f x) (f y))) (times (abs (minus x y)) (div M (plus 1)))) -> Proof (Neq x y) -> Proof (Neq (f x) (f y)) .
+def g : Elem Real -> Elem Real := x => minus (f (plus x 1)) f x\n\ndef proof : (x : Elem Real) -> Proof (Lt x 0) -> Proof (Eq (limit g x) 0) := x => Lt x 0 => limit g x => Eq (limit g x) 0 .
+lim : (x : Elem Real) -> (f : Elem Real -> Elem Real) -> (g : Elem Real -> Elem Real) -> Proof (and (exists Real (y => and (Eq f y) (Eq g y))) (Neq (derivative g x) 0)) -> Proof (Eq (limit (t -> div (f t) (g t)) x) (div (derivative f x) (derivative g x))) .
+f : Elem Real -> Elem Real -> Elem Real -> Elem Real -> Elem Real -> Proof (and (differentiable f) (threeTimesDifferentiable f)) -> Proof (and (Eq (f -1) 0) (Eq (f 0) 0) (Eq (f 1) 1) (Eq (derivative f 0) 0)) -> Proof (exists Real (x => and (Lt -1 x) (Lt x 1)) (Geq (thirdDerivative f x) 3)) .
+thm58 : (X : Set) -> Proof (not (topology X (thm58 X))) .
+def unionTopologies : (alpha : Elem Top) -> Set -> Set -> Prop := alpha => X => T => union (setFromFamily Top (alpha => (alpha : Elem Top) => T)) .
+def largestTopology : (X : Set) -> (alpha : Elem Top) -> Set := X => alpha => def largestTopology : Set .
+subbasis : (X : Set) -> (A : Set) -> Proof (subseteq A (subbasis X)) -> Proof (equalset (topologyFromSubbasis A) (intersection (topologiesContaining A))) .
+basis : (a : Elem Real) -> (b : Elem Real) -> Proof (and (Lt a b) (and (rational a) (rational b))) -> Elem (basis Topology) .
+if (subseteq Y X) and (subseteq A Y) then equalset (subspaceTopology A Y) (subspaceTopology A X) .
+basis : (a : Elem Rat) -> (b : Elem Rat) -> (c : Elem Rat) -> (d : Elem Rat) -> Proof (and (Lt a b) (Lt c d)) -> Proof (exists Rat (x => exists Rat (y => and (Lt a x) (Lt y b)))) -> Proof (exists Rat (y => exists Rat (x => and (Lt c x) (Lt y d)))) -> Proof (basis (a, b) (c, d)) .
+closed : (Y : Set) -> (f : Elem X -> Elem Y) -> (g : Elem X -> Elem Y) -> Proof (and (continuous f) (continuous g)) -> Proof (closed (set (x => Leq (f x) (g x)))) .
+let A : Set .let X : Set .let f : (x : Elem A) -> Elem Y .let Y : Set .let proof : hausdorff Y .let g : Elem (continuous (closure A) Y) .let proof : extendable f g .show (equal g (uniqueExtension f)) .
+thm78 : (x : Elem (cartesian Real Real)) -> (y : Elem (cartesian Real Real)) -> Proof (Leq x y) -> Proof (exists Real (r => and (Leq (distance x y) r) (Leq r (distance x y)))) .
+def fn : (n : Elem Nat) -> Elem Real -> Elem Real := n => x => pow x n .
+def quotientMap : (p : Elem X -> Elem Y) -> Proof (continuous p) -> (f : Elem Y -> Elem X) -> Proof (continuous f) -> Proof (equal (compose p f) (identity Y)) -> Proof (quotientMap p) := p => continuous_p => f => continuous_f => equal (compose p f) (identity Y) => Proof (quotientMap p) .
+def restrictOpen : (p : Elem X -> Elem Y) -> Open p -> (A : Set) -> Open A -> Open (restrict p A) := p => openp => A => openA => open (restrict p A) .
+connectedUnion : (A : Set) -> (As : Set) -> Proof (forall (alpha : Elem As) -> connected (A alpha)) -> Proof (forall (alpha : Elem As) -> nonempty (intersection A (A alpha))) -> Proof (connected (union A (union As))) .
+def intersectBdA : (A : Set) -> (X : Set) -> Proof (subseteq A X) -> (C : Set) -> Proof (connected C) -> Proof (and (intersection C A) (intersection C (complement A))) -> Proof (intersection C (boundary A)) := A => X => Proof (subseteq A X) => C => Proof (connected C) => Proof (and (intersection C A) (intersection C (complement A))) => Proof (intersection C (boundary A)) .
+connected : (X : Set) -> (Y : Set) -> (p : Elem X -> Elem Y) -> Proof (quotientMap p) -> (x : Elem (inverseImage p (singleton y))) -> Proof (connected (inverseImage p (singleton y))) -> Proof (connected Y) -> Proof (connected X) .
+fixedPoint : (f : Elem Real -> Elem Real) -> Proof (equalset X (closedInterval 0 1)) -> Proof (exists Real (x => and (element x (closedInterval 0 1)) (Eq (f x) x))) .
+normalsubgroup : (G : Group) -> (C : Component G) -> Proof (contains C e) -> Proof (normal C G) .
+perfectMap : (p : Elem X -> Elem Y) -> Proof (closed p) -> Proof (continuous p) -> (y : Elem Y) -> Proof (compact (preimage p y)) -> Proof (compact Y) -> Proof (compact X) .
+countablyCompact : (X : Space) -> Prop := X => exists (U : Countable (openCovering X)) (u => exists (v : finite (subcollection U)) (v => covers v X)) .
+isometry : (X : Set) -> (d : Elem Distance) -> (f : Elem (Function X X)) -> Proof (Eq (distance (f x) (f y)) (distance x y)) -> Proof (and (bijective f) (homeomorphism f)) .
+notLocallyCompact : (n : Elem Nat) -> Proof (exists Nat (k => and (Leq k n) (exists Nat (m => and (Leq m k) (exists Nat (p => and (Leq p m) (exists Nat (q => and (Leq q p) (exists Nat (r => and (Leq r q) (exists Nat (s => and (Leq s r) (exists Nat (t => and (Leq t s) (exists Nat (u => and (Leq u t) (exists Nat (v => and (Leq v u) (exists Nat (w => and (Leq w v) (exists Nat (x => and (Leq x w) (exists Nat (y => and (Leq y x) (exists Nat (z => and (Leq z y) (exists Nat (w => and (Leq w z) (exists Nat (u => and (Leq u w) (exists Nat (v => and (Leq v u) (exists Nat (x => and (Leq x v) (exists Nat (y => and (Leq y x) (exists Nat (z => and (Leq z y) (exists Nat (w => and (Leq w z) (exists Nat (u => and (Leq u w) (exists Nat (v => and (Leq v u) (exists Nat (x => and (Leq x v) (exists Nat (y => and (Leq y x) (exists Nat (z => and (Leq z y) (exists Nat (w => and (Leq w z) (exists Nat (u => and (Leq u w) (exists Nat (v => and (Leq v u) (exists Nat (x => and (Leq x v) (exists Nat (y => and (Leq y x) (exists Nat (z => and (Leq z y) (exists Nat (w => and (Leq w z) (exists Nat (u => and (Leq u w) (exists Nat (v => and (Leq v u) (exists Nat (x => and (Leq x v) (exists Nat (y => and (Leq y x) (exists Nat (z => and (Leq z y) (exists Nat (w => and (Leq w z) (exists Nat (u
+thm58 : (X : Space) -> Proof (exists (n : Elem Nat) (k : Elem Nat) (Eq (cardinality X) (times n k))) -> (exists (Y : Space) (n : Elem Nat) (k : Elem Nat) (Eq (cardinality Y) (times n k)) (exists (x : Elem X) (y : Elem Y) (and (countable x) (countable y)))) -> Proof (countable X) .
+disjointClosures : (X : Set) -> Proof (regular X) -> (x : Elem X) -> (y : Elem X) -> Proof (exists X (u => exists X (v => and (neighborhood x u) (neighborhood y v)))) -> Proof (disjoint (closure u) (closure v)) .
+regular : (X : Set) -> (T : Topology) -> Proof (orderTopology X T) -> Proof (regular T) .
+thm78 : (X : Set) -> Proof (nonempty X) -> (alpha : Elem X) -> Proof (exists X (x => Hausdorff (product (image X (lambda x => singleton x)))) -> Proof (Hausdorff (singleton alpha))) .
+normalsubgroup : (X : Set) -> Prop -> Proof (exists X) -> (Y : Set) -> Proof (subseteq Y X) -> Proof (normal Y) -> Proof (normal X) .
+completelyRegular : (X : Space) -> Proof (locallyCompact X) -> Proof ( hausdorff X) -> Proof (regular X) .
+thm58 : (X : Space) -> Proof (compact Hausdorff) -> (X1 : Space) -> (X2 : Space) -> Proof (equalset (union X1 X2) X) -> Proof (and (metrizable X1) (metrizable X2)) -> Proof (metrizable X) .
+uniformExtension : (X : Set) -> (dX : Distance) -> (Y : Set) -> (dY : Distance) -> Proof (complete Y) -> (A : Set) -> Proof (subseteq A X) -> (f : Elem A -> Elem Y) -> Proof (uniformlyContinuous f) -> Proof (exists (g : Elem (closure A) -> Elem Y) (and (continuous g) (uniformlyContinuous g))) .
+cubeRoot1 : Elem Complex := (-1 + sqrt(3) * I) / 2 .
+cartesian : (a : Elem Field) -> (v : Elem Vector) -> Proof (Eq (times a v) 0) -> Proof (or (Eq a 0) (Eq v 0)) .
+U : Subset (Cartesian 2) .
+unionSubspace : (U : Subspace) -> (V : Subspace) -> Proof (iff (subspace (union U V)) (or (subseteq U V) (subseteq V U))) .
+dim : (V : VectorSpace) -> Elem Nat -> Prop .
+def invariantSum : (T : Elem LinearMap V) -> (m : Elem Nat) -> (U : Elem (Vec Subspace V) -> Prop) -> Proof (and (Leq m (dim V)) (forall i : Elem Nat, Leq i m -> invariantUnder T (nth U i))) -> invariantUnder T (sum (take m U)) .
+eigenvalues : (S : Elem LinearOperator) -> (T : Elem LinearOperator) -> Proof (equalset (eigenvalues (compositions S T)) (eigenvalues (compositions T S))) .
+thm78 : (T : Elem (LinearOperator V)) -> Proof (forall (W : Subspace V) -> Eq (dim W) (minus (dim V) 1) -> invariant W T) -> Proof (exists (c : Elem Real) -> Eq T (scalarMul c id)) .
+evenDimension : (V : VectorSpace) -> (T : Elem (LinearMap V)) -> Proof (noEigenvalues T) -> (W : Subspace V) -> Proof (invariant W T) -> Proof (even (dim W)) .
+dotProductSquare : (a : Elem Real) -> (b : Elem Real) -> Proof (Leq (square (dotProduct a b)) (times (fold (j => square (element a j)) (nd 1 n)) (fold (j => div (square (element b j)) j) (nd 1 n)))) .
+normSquare : (v : Elem Vector) -> Elem Real .
+dim : (V : VectorSpace) -> Elem Nat .
+norm : (T : Operator) -> (V : VectorSpace) -> Prop .
+squareRoot : (V : VectorSpace) -> (T : Elem (LinearOperator V)) -> Proof (normal T) -> Elem (LinearOperator V) .
+proof : (n : Elem Nat) -> Proof (Neq (plus (div 1 2) (div 1 3) ... (div 1 n)) (integer 0)) .
+gcd : (a : Elem Int) -> (n : Elem Nat) -> (m : Elem Nat) -> Proof (Lt m n) -> Proof (Eq (gcd (plus (pow a (shift 2 n)) 1) (plus (pow a (shift 2 m)) 1)) (if (odd a) 2 1)) .
+diverge : Proof (diverge (sumOverSquareFree (n => div 1 n))) .
+noSolution : Proof (not (exists Int (x => exists Int (y => Eq y (sqrt (plus (times 3 x x) 2)))))) .
+notprime : Elem Nat -> Prop .
+thm58 : (p : Elem Nat) -> Proof (prime p) -> (t : Elem Nat) -> Proof (Eq p (plus (times 4 t) 1)) -> (a : Elem Nat) -> Proof (primitiveRoot a p) -> Proof (primitiveRoot (neg a) p) .
+fermatPrime : (n : Elem Nat) -> Proof (Eq p (plus (pow 2 n) 1)) -> Proof (prime p) -> Proof (primitive 3 p) .
+proof : (p : Elem Nat) -> (k : Elem Nat) -> Proof (if (not (divisible (minus p 1) k)) (congruent (plus (pow 1 k) (pow 2 k) ... (minus (pow (minus p 1) k) 1)) 0 p)) -> Proof (if (divisible (minus p 1) k) (congruent (plus (pow 1 k) (pow 2 k) ... (minus (pow (minus p 1) k) 1)) (neg 1) p)) .
+thm58 : (p : Elem Nat) -> Proof (congruent 1 4 p) -> Proof (exists Nat (A => exists Nat (B => Eq p (plus (square A) (times 64 (square B))))) <-> solution (Eq (pow x 4) 2) p) .
+sin : Elem Pi / 12 : Elem Algebraic .
+def constantImpliesConstant : (f : Elem Holomorphic) -> Proof (constant (im f)) -> Proof (constant f) := f => c => Proof (Eq (cardinality (range f)) 1) .
+proof (not (exists Circle 1 (z => converges (powerSeries (times n z))))) .
+convergence : (z : Elem Complex) -> Proof (Neq z 1) -> Proof (converges (powerSeries (div z n) n)) .
+integral (sin : Elem Real -> Elem Real) (x : Elem Real) / x dx : Elem Real .
+def isPolynomial : (f : Elem Analytic) -> Proof (forall z0 : Elem Complex) (exists Int (n => Eq (degree (Taylor f z0)) n)) -> Proof (forall z : Elem Complex) (Eq (degree f) (degree (Taylor f z))) .
+integral : (a : Elem Real) -> Proof (Gt a 0) -> Proof (Eq (integral (neg infinity) (infinity) (div (times x (sin x)) (plus (square x) (square a)))) (times pi (exp (neg a)))) .
+thm58 : (f : Elem Entire) -> Proof (injective f) -> Proof (exists Complex (a => exists Complex (b => Eq f (plus (times a z) b)))) .
+if (f : Holomorphic (unitDisc)) and (bounded f) and (Neq f 0) and (z : Elem (zeros f)) and (Lt (abs z) 1) => Lt (sum (map (n => 1 - (abs (z n)))) (infinity)) .
+f : Elem Real -> Elem Real .
+def sequence : (a : Elem Real) -> Elem (Stream Real) := a => stream 1 (a => a) (n => if (Geq n 2) (minus (times (at n sequence) (at (minus n 1) sequence)) (at (minus n 2) sequence)))) .
+def length : (v : Elem Vector) -> Elem Real := v => norm v .
+proof : (a : Elem Nat) -> (n : Elem Nat) -> Proof (and (positive a) (positive n)) -> Proof (Eq (minus (pow a (plus n 1)) (pow (plus a 1) n)) 2001) .
+thm58 : (f : Elem Real -> Elem Real) -> Proof (and (continuous (thirdDerivative f)) (forall Real (x => and (positive (f x)) (positive (prime f x)) (positive (secondPrime f x)) (positive (thirdPrime f x)))) -> Proof (forall Real (x => Leq (thirdPrime f x) (f x))) -> Proof (forall Real (x => Lt (prime f x) (times 2 (f x)))) .
+exists : (a : Elem Int) -> (b : Elem Int) -> (c : Elem Int) -> Proof (exists Int (n => and (positive n) (not (integer (sqrt (plus (times n n n) (times a n n) (times b n) c)))))) .
+open : (U : Set) -> (M : Set) -> Prop .
+subset : Set -> Set -> Prop .
+def closestPoints : (A : Set) -> (B : Set) -> Proof (and (exists A (a => exists B (b => and (Leq (distance a b) (distance a0 b0))))) (exists A (a => exists B (b => Leq (distance a b) (distance a0 b0)))) := A => B => and (exists A (a => exists B (b => and (Leq (distance a b) (distance a0 b0))))) (exists A (a => exists B (b => Leq (distance a b) (distance a0 b0)))) .
+nestedIntersection : (A : Set) -> (n : Elem Nat) -> Proof (exists Nat (k => and (Leq k n) (nonempty (intersection (take A k) (drop A (minus n k))))) => nonempty (intersection (take A n) (drop A (minus n 1)))) .
+constant : (f : Elem Real -> Elem Real) -> Proof (forall (t : Elem Real) (x : Elem Real) => Leq (abs (minus (f t) (f x))) (pow (abs (minus t x)) 2)) -> Proof (constant f) .
+converges : (p : Elem Real) -> Proof (Gt p 1) -> Proof (converge (sum (k : Elem Nat) (div 1 (times k (log k)) ^ p))) .
+uniformlyContinuous : (f : Elem Real -> Elem Real) -> (a : Elem Real) -> (b : Elem Real) -> Proof (iff (uniformlyContinuous f a b) (exists (mu : Elem (s : Elem Real) -> Elem Real) (and (continuous mu) (strictlyIncreasing mu) (forall s : Elem Real (Lt s 0) (Lt (mu s) 0)))))) .
+evenorder : (G : Group) -> Proof (finite G) -> Proof (even (order G)) -> Proof (exists G (a => and (Neq a e) (Eq a (inverse a)))) .
+finiteGroup : (G : Group) -> Proof (finite G) -> (a : Elem G) -> Proof (exists Nat (n => Eq (pow a n) (identity G))) .
+abelian : (G : Group) -> Proof (exists Int (i => exists Int (j => exists Int (k => and (Eq (degree (commutator a b)) i) (Eq (degree (commutator a b)) j)))) -> Proof (Eq (degree (commutator a b)) k) -> Proof (and (Eq (pow (times a b) i) (times (pow a i) (pow b i))) (Eq (pow (times a b) j) (times (pow a j) (pow b j)))) -> Proof (Eq (pow (times a b) k) (times (pow a k) (pow b k))) -> Proof (and (Eq (commutator a b) (times (pow a (minus i 1)) (pow b (minus j 1)))) (Eq (commutator a b) (times (pow a (minus j 1)) (pow b (minus k 1)))))) -> Proof (and (Eq (pow a i) (pow a j)) (Eq (pow b i) (pow b j))) -> Proof (and (Eq (pow a j) (pow a k)) (Eq (pow b j) (pow b k))) -> Proof (and (Eq (commutator a b) (times (pow a (minus i 1)) (pow b (minus j 1)))) (Eq (commutator a b) (times (pow a (minus j 1)) (pow b (minus k 1)))))) -> Proof (and (Eq (pow a i) (pow a k)) (Eq (pow b i) (pow b k))) -> Proof (and (Eq (pow a j) (pow a k)) (Eq (pow b j) (pow b k))) -> Proof (and (Eq (commutator a b) (times (pow a (minus i 1)) (pow b (minus j 1)))) (Eq (commutator a b) (times (pow a (minus j 1)) (pow b (minus k 1)))))) -> Proof (and (Eq (pow a i) (pow a k)) (Eq (pow b i) (pow b k))) -> Proof (and (Eq (pow a j) (pow a k)) (Eq (pow b j) (pow b k))) -> Proof (and (Eq (commutator a b
+norm : (a : Elem Group) -> (b : Elem Group) -> Proof (exists Int (n => and (Lt 1 n) (forall (a : Elem Group) (forall (b : Elem Group) (Eq (pow (times a b) n) (times (pow a n) (pow b n))))))) -> (a : Elem Group) -> (b : Elem Group) -> Proof (Eq (pow (times a b a^{-1} b^{-1}) (times n (minus n 1))) (identity)) .
+if (noProperSubgroup G) then (exists p (prime p => equal (order G) p => cyclic G p)) .
+normalsubgroup : (G : Group) -> Proof (forall (H : Subgroup G) -> normal H) -> (a : Elem G) -> (b : Elem G) -> Proof (exists Int (j => Eq (times b a) (pow a j b))) .
+charSubgroup : (G : Group) -> (p : Elem Nat) -> (n : Elem Nat) -> (m : Elem Nat) -> Proof (prime p) -> Proof (and (divisible (order G) (times p^n m)) (not (divisible m p))) -> (H : Subgroup G) -> Proof (equal (order H) (times p^n)) -> Proof (characteristic H G) .
+abelian : (G : Group) -> Proof (Eq (cardinality G) 9) -> Proof (abelian G) .
+abelian : (G : Group) -> (phi : Automorphism G) -> Proof (forall G (x => or (Eq (phi x) (inverse x)) (Lt (cardinality (filter G (x => Eq (phi x) (inverse x)))) (div (cardinality G) 4))) -> Proof (forall y : Elem G (Eq (phi y) (inverse y))) .
+phi : Homomorphism G G'\nN : Subgroup G\n Proof (normal N) -> Proof (normal (image phi N)) .
+def isomorphicNonabelianGroups : (p : Elem Nat) -> (q : Elem Nat) -> Proof (and (prime p) (prime q)) -> Proof (Lt q p) -> Proof (divisible (minus p 1) q) -> Proof (forall (G : Group) -> forall (H : Group) -> Eq (order G) (times p q) -> Eq (order H) (times p q) -> nonabelian G -> nonabelian H -> implies (exists (f : Isomorphism G H) (lambda f => and (nonabelian (image f)) (nonabelian G)))) .
+def intersectionWithCyclic : (A : Subgroup G) -> (b : Elem G) -> Proof (prime (order b)) -> Proof (not (member b A)) -> Proof (equalset (intersection A (cyclic b)) (singleton e)) := A => b => p => x => y => Proof (equalset (intersection A (cyclic b)) (singleton e)) .
+if (P <subset G) and (P : p-Sylow G) then (forall (varphi : Automorphism G) : Proof (equalset (image varphi P) P)) .
+if (and (noCommonDisturbance sigma tau) (equalPermutation (compose sigma tau) e)) -> Proof (and (equalPermutation sigma e) (equalPermutation tau e)) .
+T : Group (Matrix 2 2 Int) .
+commute : (a : Elem Real) -> Proof (Eq (square a) 0) -> (x : Elem Real) -> Proof (commute (times a x) (times x a)) .
+L : (R : CommutativeRing) -> (a : Elem R) -> Elem (Set R) -> Prop .
+norm : (p : Elem Nat) -> Proof (prime p) -> Proof (Eq (cardinality (residues (minus p 1))) (times (div (minus p 1) 2) 2)) .
+F : Field := Int modulo 7 .\np : Polynomial F := x => pow x 3 - 2 .\nq : Polynomial F := x => pow x 3 + 2 .\nirreducible : (f : Polynomial F) -> Prop := f => or (prime f) (exists F (x => and (prime (leadingCoefficient f)) (exists F (y => and (divisible (degree f) 3) (Eq (remainder (degree f) 3) 0))))) .\nisomorphic : (f : Polynomial F) -> (g : Polynomial F) -> Prop := f => g => and (irreducible f) (irreducible g) (Eq (degree f) (degree g)) .
+irreducible : (f : Elem Polynomial) -> Proof (exists Q (x => Eq f (plus (pow x 3) (times 3 x) 2))) -> Proof (irreducible f) .
+norm : (F : Field) -> (p : Elem Nat) -> Proof (Neq p 0) -> (a : Elem F) -> (b : Elem F) -> (n : Elem Nat) -> Proof (Eq (char F) p) -> Proof (Eq m (pow p n)) -> Proof (Eq (pow (plus a b) m) (plus (pow a m) (pow b m))) .
+if (a : Elem K) and (algebraic (pow a 2) F) : Proof (algebraic a F) .
+a : Elem Complex . Proof (Eq (p a) 0) -> Proof (algebraic a (degreeAtMost 80)) .
+distinctRoots : (F : Field) -> (p : Elem Nat) -> Proof (Neq p 0) -> (n : Elem Nat) -> Proof (Eq (degree F) (pow p n)) -> Proof (distinct (roots (minus (pow x m) x))) .
+conjugate : (a : Elem) -> (b : Elem) -> Proof (and (equal (times a b) (conjugate (times b a) a)) (equal (times b a) (conjugate (times a b) b))) .
+center : (G : Group) -> Set .
+injective : (f : Elem Field -> Elem Field) -> Proof (forall x : Elem Field -> forall y : Elem Field -> (Eq (f x) (f y)) -> Eq x y)) .
+not (exists V : VectorSpace F (infinite F) -> exists n : Elem Nat -> (subspaces : VectorSpace F -> List (VectorSpace F)) -> Proof (Eq (union (take n subspaces)) V)) .
+proof (noSimpleGroup (p : Elem Nat) (q : Elem Nat) : Proof (and (prime p) (prime q)) : Proof (not (simple (group (times p q)))) .
+proof (not (simple (Group 224))) .
+nilpotent : (x : Elem Ring) -> Proof (exists Nat (n => Eq (pow x n) 0)) -> Proof (unit (plus 1 x)) .
+norm : (x : Elem IntGauss) -> Elem Int .
+plus : (I : Ideal) -> (J : Ideal) -> Proof (equalset (plus I J) R) -> Proof (equalset (times I J) (intersection I J)) .
+divisible : (a : Elem Int) -> (b : Elem Int) -> Prop -> Proof (if (divisible a b (in GaussianInt)) (divisible a b (in Int))) .
+irreducible : Proof (irreducible (plus (square x) x 1) : Field F2) .
+irreducible : (x : Elem) -> Proof (equal (degree (minpoly x)) 3) -> Proof (irreducible (minus (pow x 3) 9) : Elem 31) .
+infinitelyManyPrimesCongruentToMinusOne : Proof (exists Nat (n => exists Nat (p => and (prime p) (congruent p (neg 1) 4)))) .
+thm58 : (K : Field) -> Proof (finite K) -> Proof (Eq (product (nonzero K)) (neg 1)) .
+star : Elem Int -> Elem Int -> Elem Int .
+associative : (n : Elem Nat) -> Proof (forall x : Elem (divisibles n) -> forall y : Elem (divisibles n) -> Eq (mod (times x y) n) (times (mod x n) (mod y n)))) .
+proof : (a : Elem G^n) -> Proof (Eq (inverse (times a)) (times (inverse (last a)) (inverse (butlast a)))) .
+thm58 : (x : Elem G) -> (n : Elem Nat) -> Proof (Eq (length x) n) -> Proof (Eq (inverse x) (pow x (minus n 1))) .
+order : Elem G -> Elem Nat .
+norm : (a : Elem Group) -> (b : Elem Group) -> Proof (Eq (times a b) (times b a)) -> Proof (Eq (norm (times a b)) (norm (times b a))) .
+cartesian : (A : Set) -> (B : Set) -> Set .
+def S_omega : Group := Sym omega .
+cartesian : (A : Group) -> (B : Group) -> Proof (congruent (cartesian A B) (cartesian B A)) .
+abelian : (G : Group) -> (sigma : Automorphism G) -> Proof (if (Eq (sigma g) g) (Eq g 1)) -> Proof (Eq (pow sigma 2) (id G)) -> Proof (abelian G) .
+thm58 : (H : Subgroup Rat) -> Proof (forall (x : Elem H) -> Elem (div 1 x) H) -> Proof (or (equalset H 0) (equalset H Rat)) .
+maximalSubgroup : (G : Group) -> (H : Subgroup G) -> Proof (proper H G) -> Proof (exists (M : Subgroup G) (and (maximal M G) (contains M H))) .
+maximalSubgroup : (G : Group) -> (n : Elem Nat) -> Proof (Eq (order G) n) -> (H : Subgroup G) -> Proof (iff (maximal H) (exists Nat (p => and (prime p) (divisible n p))) (Eq H (generated (pow x p)))) .
+normIntersection : (H : Subgroup G) -> (K : Subgroup G) -> Proof (and (normal H) (normal K)) -> Proof (normal (intersection H K)) .
+intersectionEqOne : (H : Group) -> (K : Group) -> Proof (and (finite H) (finite K)) -> Proof (relativelyPrime (order H) (order K)) -> Proof (equalset (intersection H K) (singleton 1)) .
+fermatLittle : (p : Elem Nat) -> Proof (prime p) -> (a : Elem Int) -> Proof (Eq (pow a p) (mod a p)) .
+primeIndex : (H : Subgroup G) -> (p : Elem Nat) -> Proof (normal H) -> Proof (prime p) -> (K : Subgroup G) -> Proof (or (leq K H) (and (equalset G (join H K)) (Eq (cardinality (quotient K (intersection K H))) p))) .
+cauchy : (G : Group) -> (n : Elem Nat) -> Proof (divisible (order G) n) -> Proof (exists Abelian (k => subgroup G k)) .
+solvable : (G : Group) -> Prop -> Proof -> (H : Subgroup G) -> Proof -> Prop -> Proof .
+proof : (H : Subgroup G) -> (n : Elem Nat) -> Proof (finiteIndex H n) -> Proof (exists Nat (k => and (normalSubgroup K) (and (subseteq K H) (Leq (cardinality (quotientGroup G K)) (factorial n))))) .
+normalSubgroup : (p : Elem Nat) -> Proof (prime p) -> (G : Group) -> Proof (exists Nat (alpha => Eq (order G) (pow p alpha))) -> (H : Subgroup G) -> Proof (Eq (index H) p) -> Proof (normal H) .
+cyclic : (G : Group) -> Proof (prime p) -> Proof (prime q) -> Proof (Eq (order G) (times p q)) -> Proof (abelian G) -> Proof (cyclic G) .
+exists (G : Group) -> exists (N : Subgroup G) -> Proof (normal N) -> Proof (not (characteristic N)) .
+normal : (G : Group) -> (H : Subgroup G) -> (K : Subgroup G) -> Proof (Leq H K) -> Proof (characteristic H K) -> Proof (normal K G) -> Proof (normal H G) .
+proof (exists (p : Elem Nat) (prime p) (divisible 56 p) (normal (sylow p 56))) .
+thm78 : (G : Group) -> Proof (Eq (order G) 351) -> Proof (exists Nat (p => and (prime p) (divisible 351 p))) -> Proof (exists Sylow p G (normal _)) .
+proof (G : Group) (x : Eq (cardinality G) 105) : Proof (and (exists (H : Subgroup G) (Eq (order H) 5) (normal H)) (exists (K : Subgroup G) (Eq (order K) 7) (normal K))) .
+proof (not (simple G)) : Proof (Eq (cardinality G) 6545) .
+proof (not (simple G)) : (cardinality G -> Eq (cardinality G) 2907) .
+notSimple : (G : Group) -> Proof (Eq (cardinality G) 462) -> Proof (not (simple G)) .
+def intersectionSylow : (P : Subgroup) -> (G : Group) -> Proof (normal P) -> (H : Subgroup) -> Proof (subseteq H G) -> Proof (unique (sylow p H) (intersection P H)) := P => G => x => H => y => Proof (subseteq H G) => Proof (unique (sylow p H) (intersection P H)) .
+proof (negUnit : (u : Elem R) -> Proof (unit u) -> Proof (unit (neg u))) .
+subring : (R : Ring) -> (F : Field) -> Proof (subseteq R F) -> Proof (contains R 1) -> Proof (integralDomain R) .
+p : Polynomial -> Prop\nb : Elem R\nx : Elem Var\nn : Elem Nat\na : Elem Nat -> Elem R\np : Polynomial => Prop\nb : Elem R => p => Eq (times b p) (nd 0) => exists R (b => and (Neq b 0) (Eq (times b p) (nd 0)))
+phi : (R : Ring) -> (S : Ring) -> Proof (surjective phi) -> (x : Elem R) -> Proof (commutative x) -> Proof (commutative (phi x)) .
+nilpotentUnit : (R : CommutativeRing) -> (a : Elem R) -> Proof (nilpotent a) -> (b : Elem R) -> Proof (exists R (x => unit (minus 1 (times a b)))) .
+isPId : (R : IntegralDomain) -> Proof (and (forall (a : Elem R) (forall (b : Elem R) (exists (r : Elem R) (exists (s : Elem R) (Eq (gcd a b) (plus (times r a) (times s b))))) ) (forall (a1 : Elem R) (forall (a2 : Elem R) (forall (a3 : Elem R) (if (divisible a2 a1) (exists (a : Elem Nat) (exists (n : Elem Nat) (and (Geq n a) (exists (u : Elem R) (Eq (div a1 (times u a2)) a)))))))) -> Proof (PId R) .
+def R : (n : Elem Int) -> Proof (squarefree n) -> Proof (Gt n 3) -> Ring := n => squarefree n => Gt n 3 => int : Elem Int .
+q : Elem Int .  # q is a prime\nproof (prime q) .  # q is prime\nproof (congruent q 3 4) .  # q ≡ 3 (mod 4)\n\nthm78 : Proof (field (quotient (ring Int i) q)) .  # The quotient ring is a field\nthm79 : Proof (Eq (cardinality (quotient (ring Int i) q)) (pow q 2)) .  # The field has q^2 elements
+thm58 : (R : Ring) -> Proof (exists Nat (n => exists (x : Elem Nat) (y : Elem Nat) (and (divisible (times (subscript x 1) (subscript x 2)) (powerset (times (subscript x 3) (subscript x 4)))) (divisible (times (subscript x 5) (subscript x 6)) (powerset (times (subscript x 7) (subscript x 8)))))) -> Proof (exists Nat (n => exists (x : Elem Nat) (y : Elem Nat) (and (divisible (times (subscript x 1) (subscript x 2)) (powerset (times (subscript x 3) (subscript x 4)))) (divisible (times (subscript x 5) (subscript x 6)) (powerset (times (subscript x 7) (subscript x 8)))))) -> Proof (exists Nat (n => exists (x : Elem Nat) (y : Elem Nat) (and (divisible (times (subscript x 1) (subscript x 2)) (powerset (times (subscript x 3) (subscript x 4)))) (divisible (times (subscript x 5) (subscript x 6)) (powerset (times (subscript x 7) (subscript x 8)))))) -> Proof (exists Nat (n => exists (x : Elem Nat) (y : Elem Nat) (and (divisible (times (subscript x 1) (subscript x 2)) (powerset (times (subscript x 3) (subscript x 4)))) (divisible (times (subscript x 5) (subscript x 6)) (powerset (times冷笑 (subscript x 7) (subscript x 8)))))) -> Proof (exists Nat (n => exists (x : Elem Nat) (y : Elem Nat) (and (divisible (times (subscript x 1) (subscript x 2)) (powerset (times (subscript x 3) (subscript x 4)))) (divisible (times (subscript x 5) (subscript x 6)) (powerset (times (subscript x 7) (subscript x 8)))))) ->
+irreducible : (x : Elem Int) -> Proof (irreducible (minus (pow x 4) (times 4 (pow x 3))) 6) .
+irreducible : Proof (irreducible (plus (pow x 4) (times 4 (pow x 3)) (plus (times 6 (pow x 2)) (plus (times 2 x) 1)))) .
+irreducible : Proof (irreducible (minus (pow x 2) (sqrt 2)) : (UFD (plus Int (sqrt 2)))) .
+thm78 : (n : Elem Nat) -> Proof (Eq (dim (vectorSpace Real)) n) -> Proof (exists Real (x => Eq (dim (vectorSpace x)) n)) .
