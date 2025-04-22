@@ -1,17 +1,18 @@
 import json
 import os
 
-input_filename = r"E:\Project\main\data\parallel-informath.jsonl"
+input_filename = r"/path/to/prediction.jsonl"
 src_name = os.path.splitext(os.path.basename(input_filename))[0]
 output_filename = f"{src_name}.agda"
+
 agda_codes = []
 
-with open(input_filename, 'r', encoding='utf-8') as infile:
-    for line in infile:
+with open(input_filename, 'r', encoding='utf-8') as f:
+    for line in f:
         line = line.strip()
         record = json.loads(line)
-        if 'agda' in record:
-            agda_codes.append(record['agda'].replace("\n", "\\n"))
+        if 'Agda' in record['prompt']:
+            agda_codes.append(record['predict'].replace("\n", "\\n"))
 
 with open(output_filename, 'w', encoding='utf-8') as outfile:
     for code in agda_codes:
