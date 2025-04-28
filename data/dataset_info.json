@@ -1,4 +1,10 @@
 {
+  "testing_full": {
+    "file_name": "testing_full.json"
+  },
+  "training_full": {
+    "file_name": "training_full.json"
+  },
   "full_data_v2_base_agda_eng_first1": {
     "file_name": "full_data_v2_base_agda_eng_first1.json"
   },
