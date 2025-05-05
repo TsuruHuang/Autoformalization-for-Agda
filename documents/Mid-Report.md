@@ -1,101 +1,98 @@
-# Enhancing Agda Autoformalization via Multilingual Language Model Fine-tuning
+# Autoformalization for Agda via Fine-tuning LLMs
 
-## Abstract
+## 1. Introduction   
+Autoformalization is the task of translating mathematical natural language expressions into fully formalized, machine-verifiable forms. Recently, many attempts at autoformalization are based on training or fine-tuning large language models. However, these related works have encountered a key problem: it is very difficult to build or even find a high-quality, large parallel corpus of formal language and natural language. This difficulty is faced by all formal languages, not only for the most popular Lean, not to mention Agda, which has relatively fewer codes. In the work of Jiang et al. [1], they used a large language model, the GPT-4, to convert the formal language expressions of Isabelle and Lean into English to constructe a dataset containing 332K informal-formal pairs. Compared to using well-trained mathematics and computer experts to perform manual translation to build a dataset, this method is quite cheap and convenient, saving a lot of time and money. However, the disadvantages are also difficult to ignore. First, the accuracy of the translation results based on the GPT-4  is not optimistic. Jiang et al. estimated that the accuracy of the MMA dataset they constructed was about 74% based on sampling, which is obviously insufficient for further fine-tuning the large language model []. Noise or even incorrect translation may cause the model to learn incorrect translation patterns, thereby affecting the overall performance of the model. In addition, the risk of hallucinations in the data output by large language models cannot be ignored []. Their subsequent experimental results also verified these shortcomings well. The large language model fine-tuned on MMA only produced 29-31% of acceptable sentences.
 
-This thesis investigates the automated translation between formal mathematical language and natural language, with a focus on Agda. Leveraging instruction fine-tuning of large language models (LLMs) on multi-formal and multi-natural language datasets, our work builds on insights from the Multilingual Mathematical Autoformalization framework. We explore how training on diverse data—including Lean, Dedukti, Agda, and Coq paired with English, French, and Swedish—can improve the performance of models on the autoformalization task. Experimental results using Qwen2-7B-Chat fine-tuned on various data slices show that multilingual training yields improvements in evaluation metrics such as BLEU-4 and ROUGE scores. 
+Different from the method of constructing MMA, though *informath* project, this paper uses the collected Dedukti formal language expressions from different sources as an intermediary to convert them into formal languages ​​Agda, Coq, and Lean expressions, and generate diverse and controlled natural language expressions in three natural languages: English, French, and Swedish, and constructing a dataset (Synthetic Multilanguage Autoformalization Dataset, SMAD) containing approximately 30K informal-formal pairs. This means that each group of data in the dataset consists of four formal languages ​​with the same meaning and different expressions in three corresponding natural languages ​​(4 to N). Most importantly, with the help of *Informath*, we can ensure that each informal-formal pair in the dataset is fully correct, which can improve the quality of subsequent fine-tuning of LLMs.
 
-## 1. Introduction
+```
+{"dedukti": "prop10 : Proof (even 0) .", "agda": "postulate prop10 : even 0", "coq": "Axiom prop10 : even 0 .", "lean": "axiom prop10 : even 0", "InformathEng": ["Prop10. We can prove that $0$ is even.", "Prop10. $0$ is even."], "InformathFre": ["Prop10. Nous pouvons démontrer que $0$ est pair.", "Prop10. $0$ est pair."], "InformathSwe": ["Prop10. Vi kan bevisa att $0$ är jämnt.", "Prop10. $0$ är jämnt."]}
+```
+Table 1: Examples of SMAD  
 
-Formalizing mathematics is an essential step towards achieving machine-verifiable proofs and automated theorem proving. However, the manual translation between natural language mathematics and formal languages is both time-consuming and requires specialized expertise. Autoformalization—the process of automatically converting informal mathematical text into formally verifiable code—has the potential to bridge this gap.
+In this work, we fine-tuned the open-source large language model Qwen2.5-7B[] on SMAD and established an autoformalization system for Agda for the first time. To ensure the reliability and generalization of model testing, we used Dedukti code from different sources to the training set data to construct the test set. The Blue-4 Score of the fine-tuned model on the test set reached 76.16, which was 48.75% higher than the score of 51.20 of the un-fine-tuned baseline model. Other metrics including ROUGE-1/2/L also improved by 18.57%/40.44%/38.43% respectively compared with the baseline model. At the same time, we also checked the syntax correctness of the Agda code generated by the model. Compared with the error rate of the baseline model as high as 83.76%, the syntax error rate of the fine-tuned model dropped sharply to less than 8%. In addition, we also verified whether joint training of multiple formal languages ​​and/or multiple natural languages ​​can help improve the quality or training efficiency of autoformalization of Agda, a formal language with a shortage of code. Experimental results show that multi-formal/multi-natural language joint training can effectively improve various indicators of the model when the number of Agda-Eng samples is small, among which the reduction of syntax error is the most obvious.
 
-Recent advances, such as those reported in the *Multilingual Mathematical Autoformalization* paper, have shown that training on datasets that include multiple formal languages can significantly improve the performance of autoformalization systems. In our project, we extend these ideas by focusing on Agda, while also incorporating data from Lean, Dedukti, and Coq. Our dataset features a one-to-many mapping, where each formal code line is paired with several natural language expressions (in English, French, and Swedish), offering rich diversity in expression.
+## 2. Background
 
-In this thesis, we describe our methodology for instruction fine-tuning LLMs—specifically using the Qwen2-7B-Chat model—on different slices of our dataset. We analyze how various training regimes impact model performance on autoformalization, compare our findings with those reported in related work, and discuss the implications for future research.
+**Agda.** Agda [3] is a dependently typed functional programming language. Due to strong and dependent typing, Agda can also be used as a proof assistant, allowing proofs of mathematical theorems and running proofs such as algorithms. It has many similarities with other functional programming languages ​​and interactive theorem provers based on dependent type theory, such as Coq and Lean. Compared to more popular formal languages, Agda has relatively little code. This poses a serious challenge to building a high-quality informal–formal pairs dataset for machine learning.
 
-## 2. Methodology
+**Dedukti.** Dedukti is a logic framework based on the modular theory of the λΠ-calculus, in which many theories and logics can be expressed. λΠ-calculus modulo is a dependently typed λ-calculus with type rewriting rules added, which can express proofs in the form of modular calculus. In the Informath project, Dedukti is used as an interlingua to convert code into Agda Coq and Lean expressions.
 
-### 2.1 Dataset Construction
+**Grammatical Framework (GF).** It provides a framework for defining abstract syntax trees that map to multiple concrete natural languages, thereby supporting translation, parsing, and generation between languages. GF ​​is particularly powerful in controlled natural languages ​​and improves the interpretability of machine translation systems by minimizing ambiguity.
 
-Our dataset comprises four formal languages (Lean, Dedukti, Agda, and Coq) and three natural languages (English, French, Swedish). Each line of formal code is associated with multiple natural language renditions (a one-to-many mapping), ensuringing the diversity of the same code under different language expressions. Data sets are sliced according to different combinations, such as full language, English only, Agda only, and Agda-English combinations only, to compare the effects of multiple training strategies on model performance.
+**Informath.** The *Informath* [4] project uses GF to solve the problem of converting mathematical expressions between multiple formal languages ​​and multiple natural languages. The core structure of Informath is a bidirectional pipeline: formal language (Agda Coq Lean) ↔ Dedukti ↔ MathCore ↔ natural language. Dedukti acts as an interlingua for formal languages, while MathCore acts as an interlingua for natural languages. Through MathCore, Informath can generate multiple controlable statements for multiple natural languages ​​based on given formal expressions. Therefore, Informath provides a reliable and diverse dataset of multilingual expressions of formal-informal pairs without relying on manual translation or LLM-based informalization.
 
-### 2.2 Model Fine-Tuning Strategy
+## 3. Problem Statement
+This paper aims to build an autoformalization system for Agda by fine-tuning LLMs. At the same time, we also aim to verify whether joint training of multiple formal languages ​​can help improve the quality or training efficiency of LLMs in translating Agda. Similarly, does joint training of multiple natural languages ​​help? For this purpose, we build a parallel dataset (SMAD) containing 4 formal languages ​​and 3 natural languages. Our dataset is different from MMA in that it does not come from text generated by LLMs, but relies on multi-language generation from the GF-based *Informath* project. Different slicing strategies on SMAD allow us to conduct experiments such as "all formals languages ​​- English" vs. "Agda - English" (multiple formal languages ​​vs. single formal language) and "Agda - all naturals languages" vs. "Agda - English" (multiple natural languages ​​vs. single natural language). We also study the impact of the scenario of scarce Agda code resources on the fine-tuned model by downsampling the Agda-English data. This can also verify whether adding "other formal language-natural language pairs" can improve the Agda autoformalization ability of the fine-tuned model. Finally, we also tested the informalization ability of the fine-tuned model, that is, input formal statements into the model and check whether the output natural language is consistent with the original meaning and whether it is fluent and natural.  
 
-We fine-tuned the Qwen2-7B-Chat model using an instruction-based approach. The core idea is to use paired examples of Agda code and its corresponding natural language description as input–output pairs for the model. The main strategies used in the experiment are:
-- **Multilingual hybrid training:**  Fine-tuning on the entire dataset containing all formal language and natural language pairs. (e.g., model M_exx-gflean_all).
-- **Single natural language training:** Using only the English natural language pairs, while still incorporating data from all formal languages. (e.g., model M_exx-gflean_eng)
-- **Single formal language training:** Focusing on Agda paired with all natural language variants. (e.g., model M_exx-gflean_agda).
-- **Agda-English refinement training:** Restricting both the formal language and natural language to Agda and English respectively. (e.g., model M_exx-gflean_agda_eng).
-- **Different strategies of data slicing:** For example, using the "first 2 English expressions" slice training, and using the "single English expression" slice training of the whole dataset, to examine the impact of different amounts of natural language representations on the results.
+## 4. Methodology
+**Datasets and experimental groups.** The data involved in the experiment are all from the self-constructed SMAD dataset. The naming convention for the datasets used to train/test the models is as follows:
+- **SMAD**: The name of the dataset.  
+- **train/test/all**: Specifies that this is a train/test/non-splited set.  
+- **full**: Includes all formal language - natural language pairs.  
+- **eng**: Includes only formal language - English pairs.  
+- **agda**: Includes only Agda - natural language pairs.  
+- **agda_eng**: Includes only Agda - English pairs.  
+- **small (Optional)**: A subset of the dataset containing 10,000 training samples or 1,000 test samples. This slicing strategy is mainly used for small-scale testing and verification.
 
-## 3. Experimental Results and Discussion
+For an example：
+- **M_SMAD_test_agda_eng_small**: A test set which  belongs to a slice of the SAMD dataset, containing a small subset of only Agda–English pairs.
 
-### 3.1 Evaluation Metrics
+We set up six experimental groups (A-F) using different slices of the SMAD dataset according to the experimental purpose:
+| Experiment Group | Training Data Coverage | Purpose |
+|------------------|------------------------|---------|
+| A | Each FL (Dedukti/Agda/Coq/Lean) ↔ English trained independently (4 models) | Baseline: single formal language × English |
+| B | All FL ↔ English combined training (1 model) | Verify the effect of joint training of multiple formal languages |
+| C | Agda ↔ Each NL (English/French/Swedish) trained independently (3 models) | Baseline: single natural language × Agda |
+| D | Agda ↔ All NL combined training (1 model) | Verify the effect of joint training of multiple natural languages |
+| E | All FL ↔ All NL (4×3 total 12 pairs) combined training | Full multi-pair model |
+| F | Only Agda ↔ English, but split into smaller data-scarce scenarios (e.g., 10%, 1%)  to simulate low-resource scenario | Verify the effect of data quantity vs. accuracy |
 
-Our evaluation considered the following key metrics:
-- **BLEU-4:** Measures the overlap between the generated output and reference text.
-- **ROUGE Scores (ROUGE-1, ROUGE-2, ROUGE-L):** Assess the quality of the generated sequence by comparing n-gram overlap with the ground truth.
-- **ERROR:** The number of errors of the code output by the model after Agda syntax checking.
+These groups test the effect of multi-formal languages (A vs B) and multi-natural languages (C vs D) training, as well as scaling of data (A/D vs F experiments).
 
-### 3.2 Evaluation Results
+**Training setup.** We fine-tuned the pre-trained Qwen2.5-7B model using LLaMA-Factory on a single NVIDIA RTX 4090 GPU (24GB VRAM). We used LoRA [] fine-tuning: the original model weights were kept frozen while small low-rank matrices were added to each layer and learned. The LoRA core parameters we used were as follows: rank r = 8, LoRA alpha = 32, dropout = 0.1. We used a dynamic learning rate, initially set to 5e-5. Depending on the size of the dataset, we set batch_size = 2 and gradient_accumulation_steps = 8, which is equivalent to a batch_size of 2*
+8 = 16. We trained one to multiple epochs for different models so that the training time of each model was the same, making it easier and more fair to compare the results. For example, we trained the model using the largest set of slices (38,736 examples, all FL/all NL) for 1 epoch (2,421 steps); the smallest set (3,228 Agda-English) required 12 epochs (same 2,421 steps) to match the same training amount of the former.
 
-| Model | Dataset (Size/Agda Code Number) | BLEU-4 (Δ%) | ROUGE-1 (Δ%) | ROUGE-2 (Δ%) | ROUGE-L (Δ%) | ERROR (%) |
-|--------|-------------|------------|------------|------------|------------|------------|
-| **Base Line** | mini-matita_base_test_small (1000) | 44.55 (0.00%) | 68.99 (0.00%) | 43.69 (0.00%) | 56.62 (0.00%) | |
-|  | matita_dk_base_test_small (1000) | 45.36 (0.00%) | 71.20 (0.00%) | 45.94 (0.00%) | 51.46 (0.00%) | |
-|  | exx-gflean_base_test (866) | 49.10 (0.00%) | 68.58 (0.00%) | 42.13 (0.00%) | 61.68 (0.00%) | |
-|  | full_data_base_test_small (1000/244) | 44.63 (0.00%) | 70.39 (0.00%) | 44.74 (0.00%) | 55.15 (0.00%) | 202 (82.79%)|
-| **M_exx-gflean_all** | M_exx-gflean_test_all (4906) | 100.0 (+103.67%) | 100.0 (+45.82%) | 100.0 (+137.36%) | 100.0 (+62.13%) | |
-|  |mini-matita_test_all_small (1000) | 61.79 (+38.72%) | 82.81 (+20.04%) | 63.88 (+46.23%) | 72.43 (+27.97%) | |
-|  | mini-matita_test_agda_eng_small (1000) | 67.77 (+52.14%) | 85.78 (+24.35%) | 71.63 (+63.96%) | 78.48 (+38.64%) | |
-|  | matita_dk_test_all_small (1000) | 38.97 (-14.09%) | 76.29 (+7.15%) | 48.07 (+4.64%) | 53.13 (+3.25%) | |
-| **M_exx-gflean_eng** | M_exx-gflean_test_eng (1635) | 100.0 (+103.67%) | 100.0 (+45.82%) | 100.0 (+137.36%) | 100.0 (+62.13%) | |
-|  |mini-matita_test_all_small (1000) | 62.17 (+39.52%) | 82.25 (+19.20%) | 62.91 (+44.02%) | 71.91 (+27.04%) | |
-|  | mini-matita_test_all_small_eng (325) | 62.57 (+40.42%) | 82.84 (+20.11%) | 63.88 (+46.23%) | 72.87 (+28.78%) | |
-|  | mini-matita_test_agda_eng_small (1000) | 66.40 (+49.05%) | 84.58 (+22.62%) | 67.97 (+55.58%) | 76.28 (+34.78%) | |
-| **M_exx-gflean_agda** | M_exx-gflean_test_agda (1226) | 100.0 (+103.67%) | 100.0 (+45.82%) | 100.0 (+137.36%) | 100.0 (+62.13%) | |
-|  |mini-matita_test_all_small (1000) | 52.16 (+17.06%) | 72.11 (+4.51%) | 51.97 (+18.92%) | 62.52 (+10.42%) | |
-|  | mini-matita_test_all_small_agda (256) | 65.39 (+46.80%) | 83.11 (+20.46%) | 68.34 (+56.44%) | 74.59 (+31.77%) | |
-|  | mini-matita_test_agda_eng_small (1000) | 69.66 (+56.40%) | 85.76 (+24.29%) | 72.36 (+65.66%) | 78.53 (+38.77%) | |
-| **M_exx-gflean_agda_eng** | M_exx-gflean_test_agda_eng (408) | 99.75 (+103.16%) | 99.90 (+45.67%) | 99.54 (+136.28%) | 99.77 (+61.75%) | |
-|  |mini-matita_test_all_small (1000) | 49.32 (+10.72%) | 72.21 (+4.67%) | 51.13 (+17.01%) | 60.26 (+6.42%) | |
-|  | mini-matita_test_all_small_agda_eng (84) | 63.33 (+42.16%) | 85.15 (+23.45%) | 70.19 (+60.63%) | 75.04 (+32.54%) | |
-|  | mini-matita_test_agda_eng_small (1000) | 64.52 (+44.85%) | 84.89 (+23.07%) | 69.96 (+60.13%) | 75.06 (+32.62%) | |
-| **M_mini-matita_eng_first2** | mini-matita_test_eng_first2 (1004) | 99.85 (+124.14%) | 99.93 (+44.83%) | 99.89 (+128.54%) | 99.90 (+76.49%) | |
-|  | mini-matita_test_all_small (1000) | 96.63 (+116.90%) | 98.27 (+42.47%) | 97.33 (+122.67%) | 97.25 (+71.82%) | |
-|  | test_all (866) | 67.53 (+37.54%) | 81.83 (+19.32%) | 63.04 (+49.63%) | 75.12 (+21.79%) | |
-|  | matita_dk_test_all_small (1000) | 83.39 (+83.84%) | 93.55 (+31.39%) | 87.49 (+90.44%) | 86.60 (+68.29%) | |
-| **M_mini-matita_agda_eng_first2** | mini-matita_test_agda_eng_first2 (251) | 99.86 (+124.18%) | 99.87 (+44.80%) | 99.57 (+127.94%) | 99.79 (+76.27%) | |
-|  | mini-matita_test_agda_small (1000) | 94.80 (+112.80%) | 96.83 (+40.34%) | 95.68 (+119.06%) | 96.49 (+70.47%) | |
-|  | test_agda (217) | 73.73 (+50.16%) | 85.39 (+24.51%) | 69.26 (+64.40%) | 80.64 (+30.73%) | |
-|  | matita_dk_test_agda_small (1000) | 61.52 (+35.63%) | 81.49 (+14.45%) | 55.16 (+20.07%) | 68.79 (+33.68%) | |
-| **M_matita_dk_eng_first2** | matita_dk_test_eng_fisrt2 (1717) | 99.18 (+118.65%) | 99.90 (+40.31%) | 99.85 (+117.35%) | 99.53 (+93.41%) | |
-|  | matita_dk_test_all_small (1000) | 99.48 (+119.31%) | 99.95 (+40.38%) | 99.91 (+117.48%) | 99.70 (+93.74%) | |
-|  | test_all (866) | 39.49 (-19.57%) | 63.37 (-7.60%) | 34.56 (-17.97%) | 50.54 (-18.06%) | |
-|  | mini-matita_test_all_small (1000) | 62.02 (+39.21%) | 81.34 (+17.90%) | 67.37 (+54.20%) | 73.47 (+29.76%) | |
-| **M_matita_dk_agda_eng_first2** | matita_dk_test_agda_eng_fisrt2 (251) | 99.86 (+120.15%) | 99.87 (+40.27%) | 99.57 (+116.74%) | 99.79 (+93.92%) | |
-|  | matita_dk_test_agda_small (1000) | 97.55 (+115.06%) | 99.44 (+39.66%) | 99.22 (+115.98%) | 98.44 (+91.29%) | |
-|  | test_agda (217) | 44.94 (-8.47%) | 66.01 (-3.75%) | 32.27 (-23.40%) | 56.56 (-8.30%) | |
-|  | mini-matita_test_agda_small (1000) | 66.94 (+50.26%) | 82.84 (+20.08%) | 69.50 (+59.08%) | 79.64 (+40.66%) | |
-| **M_full_data_eng_single** | full_data_test_eng_single (1402/355) |  99.30 (+122.50%) | 99.73 (+38.47%) | 99.64 (+114.53%) | 99.51 (+75.38%) | 11 (3.10%)|
-|  | full_data_test_all_small (1000/244) | 96.69 (+116.65%) | 98.46 (+39.89%) | 97.03 (+116.88%) | 97.42 (+76.65%) | 18 (7.38%)|
-| **M_full_data_agda_eng_single** | full_data_test_agda_eng_single (351) | 98.63 (+120.99%) | 99.17 (+40.90%) | 98.92 (+121.10%) | 98.86 (+79.26%) | 16 (4.56%)|
-|  | full_data_test_agda_small (1000) | 94.95 (+112.75%) | 97.46 (+38.47%) | 95.98 (+114.53%) | 96.72 (+75.38%) | 113 (11.3%)|
+**Evaluation metrics.** We evaluate the translation by comparing the formal language code output by the fine-tuned model with the test set text based on SMAD slices. We measure the quality of the model using BLEU-4 and ROUGE-1/2/L scores, which are standard measures of n-gram overlap in translation evaluation. BLEU focuses on measuring the accuracy and exact match of the translation, which is more biased towards Precision, while ROUGE focuses on measuring the information completeness and coverage of the summary, which is more biased towards Recall. We also measure the syntax error rate of the Agda code generated by the model: the proportion of outputs that cannot be parsed into syntactic correct formal sentences. Finally, to summarize the performance, we use a custom score defined as:
+```
+Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE-L).
+```
+This balances the paper quality of the translation and the syntax correctness that is critical for practical applications. We use these metrics to compare models and analyze the results of the experiments.
 
-The experimental results demonstrate that:
-- **Baseline:** BLEU-4 ranges from 44.55 to 49.10 on each dataset and ROUGE-L ranges from 51.46 to 61.68. Particularly, the error rate on dataset *full_data_base_test_small* is 82.79%, indicating terrible model performance without fine-tuning.
-- **Effectiveness of Fine-tuning:** Almost all models show significant improvements in BLEU and ROUGE scores compared to baseline after fine-tuning.
-- **Multiple Formal Languages Training Benefits:** Models fine-tuned on the dataset (M_full_data_eng_single) on the test set full_data_test_agda_small, The model fine-tuned on the dataset (M_full_data_agda_eng_single) achieves better BLUE and ROUGE scores, which is consistent with results from multilingual mathematical automatic formalization papers, where multilingual training improves model performance.
-- **Impact of Natural Language Restriction:** Restricting to English-only (M_exx-gflean_eng) achieves slightly lower BLUE and ROUGE scores on the test set mini-matita_test_agda_eng_small than on the full combined dataset (M_exx-gflean_all). It shows that joint training of multiple natural languages can partially improve the performance of the model.
+## 5. Result and Discussion
 
+![alt text](/main/results/Qwen2.5-7B/training_logs/full_data_v2_step-loss%20curves.png)  
 
-### 3.3 Discussion
+Figure 1: Training losses of models using different training sets sliced ​​from SMAD.
 
-Our experiments indicate that incorporating multiple formal languages and diverse natural language expressions during training improves the model's autoformalization capabilities. Specifically:
-- **Data Efficiency:** The multilingual setup allows the model to transfer learning across formal languages, leading to more robust performance even with fewer Agda-specific codes.
-- **Error Analysis:** Auto inspection of generated outputs revealed that models trained on combined datasets make fewer syntactic and semantic errors. For example, while the base model often replicated the prompt or output irrelevant segments, fine-tuned models produced syntactically correct Agda expressions that were closer to the ground truth.
+![alt text](/main/results/Qwen2.5-7B/training_logs/parallel-informath_step-loss%20curves.png)  
+Figure 2: Training losses of models using different training sets sliced ​​from parallel-informath (data from another resourse).
 
-These findings align with the insights provided by the Multilingual Mathematical Autoformalization study, reinforcing the value of leveraging diverse datasets to boost autoformalization performance.
+| No. | Model Name | BLEU-4 | BLEU-4 Δ% | ROUGE-1 | ROUGE-1 Δ% | ROUGE-2 | ROUGE-2 Δ% | ROUGE-L | ROUGE-L Δ% | Syntax Error | Syntax Error % | Score | Score Δ% |
+|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| 1 | Base Line | 51.20 | 0.00% | 75.08 | 0.00% | 53.36 | 0.00% | 60.12 | 0.00% | 294 | 83.76% | 42.46 | 0.00% |
+| 2 |M_full_data_v2_full_first1 (38,736) | 98.36 | 92.00% | 99.31 | 32.26% | 98.94 | 85.42% | 98.81 | 64.36% | 14 | 3.90% | 97.77 | 130.26% |
+| 3 |M_full_data_v2_eng_first1 (12,912) | 98.63 | 92.57% | 99.48 | 32.49% | 99.13 | 85.77% | 98.99 | 64.66% | 13 | 3.62% | 98.01 | 130.83% |
+| 4 |M_full_data_v2_agda_first1 (9,684) | 98.98 | 93.28% | 99.64 | 32.71% | 99.48 | 86.44% | 99.32 | 65.21% | 17 | 4.74% | 97.83 | 130.41% |
+| 5 | M_full_data_v2_agda_eng_first1 (3,228) | 98.91 | 93.15% | 99.54 | 32.57% | 99.26 | 86.03% | 99.27 | 65.13% | 19 | 5.29% | 97.58 | 129.82% |
+| 6 | M_parallel-informath_full (14,748) | 88.98 | 73.79% | 92.28 | 22.91% | 85.85 | 60.89% | 91.92 | 52.90% | 67 | 7.67% | 90.46 | 113.05% |
+| 7 | M_parallel-informath_eng (4,916) | 88.61 | 73.10% | 92.53 | 23.24% | 87.08 | 63.19% | 92.04 | 53.09% | 87 | 9.95% | 89.70 | 111.26% |
+| 8 | M_parallel-informath_agda (3,687) | 88.30 | 72.45% | 91.04 | 21.26% | 85.33 | 59.91% | 91.06 | 51.47% | 159 | 18.19% | 86.28 | 103.20% |
+| 9 | M_parallel-informath_agda_eng (3,228) | 85.71 | 67.38% | 89.62 | 19.36% | 85.14 | 59.56% | 89.53 | 48.92% | 114 | 13.04% | 86.86 | 104.57% |
 
-## 4. Conclusion
+Table 2: Evaluation on Agda–English test set (BLEU-4, ROUGE-1/2/L, syntax-error%), comparing baseline and finr-tuned models.
 
-This thesis demonstrates that instruction fine-tuning on a multilingual and multi-formal dataset substantially improves the autoformalization capabilities of LLMs for Agda. Our experiments with Qwen2-7B-Chat reveal that models trained on data spanning multiple formal languages and natural language variants not only achieve higher BLEU-4 and ROUGE scores but also perform well when checking output code syntax errors.
+By comparison, we can find that:
+- **Baseline model vs. fine-tuned models:** (1 vs 3/9) For the un-fine-tuned model, the BLEU-4 score on the test set reached 51.20, but the syntax error rate was as high as 83.76%, which is obviously unusable, and the overall score was 42.46. In contrast, even the worst fine-tuned model achieved a BLEU-4 score of 85.71, an improvement of 67.38% over the baseline, and the syntax error rate also dropped sharply to 13.04%, with an overall score of 86.86, an improvement of 104.57%. For the best model, the syntax error rate dropped to only 3.62%.
+- **Effect of joint training:** (2 vs 5) Although multi-formal/multi-natural language joint training has little help on the main indicators when the amount of data is large enough, on the contrary, multi-task joint training has learned how to translate other formal/natural language without significantly damaging the performance of main target (translate between Agda-English), and the training cost (number of steps/time) has nearly no increase.
+- **Training under Low-resource:** (6 vs 9) Multi-formal/multi-natural joint training can effectively improve various indicators of the model when the number of Agda-Eng samples is small, among which the reduction of Syntax Error is the most obvious.
+
+## 6. Conclusion
+我们通过在SMAD数据集上使用 LoRA 微调 Qwen2.5-7B，达到了出色的 BLEU、 ROUGE 分数以及令人惊喜的语法错误率。我们的工作是第一个将 Agda 纳入微调大语言模型以自动形式化的工作。同时，实验还表明：对于Agda资源稀缺的情况，跨语言的联合训练可以略微提升模型的性能。而对于丰富数据状态下，跨语言的联合训练在不损失训练质量的同时，大大提升了训练的效率。原先专门训练单一形式化语言的时间可以同时训练4种不同的形式化语言。
+We achieved excellent BLEU, ROUGE scores and surprising grammatical error rates by fine-tuning Qwen2.5-7B using LoRA on the SMAD dataset. Our work is the first to incorporate Agda into fine-tuning large language models for autoformalization. At the same time, experiments also show that: for the case of scarce Agda resources, multi-language joint training can slightly improve the performance of the model. For the case of abundant data, multi-language joint training greatly improves the efficiency of training without losing training quality. The time originally dedicated to training a single formal language can be used to train 4 different formal languages simultaneously.
+
+## 7. Reference
+1. Jiang, A. Q., Li, W., Jamnik, M. (2023). Multilingual Mathematical Autoformalization. *arXiv preprint arXiv:2311.03755.*
+2. Wu, Y., Jiang, A. Q., Li, W., Rabe, M. N., & Szegedy, C. (2022). Autoformalization with Large Language Models. *arXiv preprint arXiv:2205.12615.*
+3. Norell, U., James C. (2009). Dependently typed programming in Agda. *Proceedings of the 4th international workshop on Types in language design and implementation*.
+4. Ranta, A. (2024). Towards Multilingual Autoformalization and Informalization of Mathematics. *Proceedings of the Swedish Language Technology Conference (SLTC) 2024.*
