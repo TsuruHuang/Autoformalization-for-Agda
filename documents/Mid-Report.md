@@ -88,7 +88,6 @@ By comparison, we can find that:
 - **Training under Low-resource:** (6 vs 9) Multi-formal/multi-natural joint training can effectively improve various indicators of the model when the number of Agda-Eng samples is small, among which the reduction of Syntax Error is the most obvious.
 
 ## 6. Conclusion
-我们通过在SMAD数据集上使用 LoRA 微调 Qwen2.5-7B，达到了出色的 BLEU、 ROUGE 分数以及令人惊喜的语法错误率。我们的工作是第一个将 Agda 纳入微调大语言模型以自动形式化的工作。同时，实验还表明：对于Agda资源稀缺的情况，跨语言的联合训练可以略微提升模型的性能。而对于丰富数据状态下，跨语言的联合训练在不损失训练质量的同时，大大提升了训练的效率。原先专门训练单一形式化语言的时间可以同时训练4种不同的形式化语言。
 We achieved excellent BLEU, ROUGE scores and surprising grammatical error rates by fine-tuning Qwen2.5-7B using LoRA on the SMAD dataset. Our work is the first to incorporate Agda into fine-tuning large language models for autoformalization. At the same time, experiments also show that: for the case of scarce Agda resources, multi-language joint training can slightly improve the performance of the model. For the case of abundant data, multi-language joint training greatly improves the efficiency of training without losing training quality. The time originally dedicated to training a single formal language can be used to train 4 different formal languages simultaneously.
 
 ## 7. Reference
