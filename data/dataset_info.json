@@ -1,4 +1,34 @@
 {
+  "natural_test_agda_eng": {
+    "file_name": "natural_test_agda_eng.json"
+  },
+  "ratio_base": {
+    "file_name": "ratio_base.json"
+  },
+  "ratio_test": {
+    "file_name": "ratio_test.json"
+  },
+  "ratio_train1": {
+    "file_name": "ratio_train1.json"
+  },
+  "ratio_train2": {
+    "file_name": "ratio_train2.json"
+  },
+  "ratio_train3": {
+    "file_name": "ratio_train3.json"
+  },
+  "ratio_train4": {
+    "file_name": "ratio_train4.json"
+  },
+  "ratio_train5": {
+    "file_name": "ratio_train5.json"
+  },
+  "ratio_train6": {
+    "file_name": "ratio_train6.json"
+  },
+  "parallel-informath_base_agda_eng": {
+    "file_name": "parallel-informath_base_agda_eng.json"
+  },
   "testing_full": {
     "file_name": "testing_full.json"
   },
