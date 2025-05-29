@@ -1,0 +1,287 @@
+[
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01. If $m \\in \\mathbb{N}$ and $n \\in \\mathbb{N}^+$ then $(m/n)^2 \\neq 2$.",
+    "output": "Thm01 : (m : Elem Nat) -> (n : Elem Nat) -> Proof (Neq n 0) -> Proof (Neq (pow (div m n) 2) 2) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01. There are no pairs $(m, n) \\in \\mathbb{N}\\times\\mathbb{N}$ such that $n > 0$ and $(m/n)^2 = 2$.",
+    "output": "Thm01 : (m : Elem Nat) -> (n : Elem Nat) -> Proof (Neq n 0) -> Proof (Neq (pow (div m n) 2) 2) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01a. The equation $(m/(n+1))^2 = 2$ has no solution in the natural numbers.",
+    "output": "Thm01a : (m : Elem Nat) -> (n : Elem Nat) -> Proof (Neq (pow (div m (plus n 1)) 2) 2) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01b. The equation $q^2 = 2$ has no solution in the rationals.",
+    "output": "Thm01b : (q : Elem Rat) -> Proof (Neq (pow q 2) 2) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01b. There is no rational number whose square is $2$.",
+    "output": "Thm01b : (q : Elem Rat) -> Proof (Neq (pow q 2) 2) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01b. If $q \\in \\mathbb{Q}$ then $q^2 \\neq 2$.",
+    "output": "Thm01b : (q : Elem Rat) -> Proof (Neq (pow q 2) 2) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01e. The square root of $2$ is irrational.",
+    "output": "Thm01e : Proof (irrational (sqrt 2)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01e. $\\sqrt{2}$ is irrational.",
+    "output": "Thm01e : Proof (irrational (sqrt 2)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01f. The equation $p^2 = 2q^2$ has no solution in the rationals.",
+    "output": "Thm01f : Proof (not (exists Nat (p => exists Nat (q => Eq (square p) (times 2 (square q)))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm01f. There are no rational numbers $p$ and $q$ such that $p^2 = 2q^2$.",
+    "output": "Thm01f : Proof (not (exists Nat (p => exists Nat (q => Eq (square p) (times 2 (square q)))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm02. Every polynomial of degree greater than zero has at least one complex root.",
+    "output": "Thm02 : (P : Polynomial) -> Proof (Gt (degree P) 0) -> Proof (exists Complex (c => isRoot c P)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm02. Every polynomial of non-zero degree has at least one complex root.",
+    "output": "Thm02 : (P : Polynomial) -> Proof (Gt (degree P) 0) -> Proof (exists Complex (c => isRoot c P)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm02. Every polynomial of non-zero degree has a complex root.",
+    "output": "Thm02 : (P : Polynomial) -> Proof (Gt (degree P) 0) -> Proof (exists Complex (c => isRoot c P)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm03. The set of rational numbers is countable.",
+    "output": "Thm03 : Proof (denumerable Rat) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm03. $\\mathbb{R}$ is countable.",
+    "output": "Thm03 : Proof (denumerable Rat) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm03a. $\\mathbb{R}$ and $\\mathbb{N}$ have equal cardinality.",
+    "output": "Thm03a : Proof (Eq (cardinality Nat) (cardinality Rat)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm04. If the vectors $u$ and $v$ are perpendicular, then $\\lvert u + v \\rvert = \\sqrt{\\lvert u \\rvert^2 + \\lvert v \\rvert^2}$.",
+    "output": "Thm04 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (perpendicular u v) -> Proof (Eq (length (resultant u v)) (sqrt (plus (square (length u)) (square (length v))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm04. If $u$ and $v$ are vectors such that $u \\perp v$, then $\\lvert u + v \\rvert = \\sqrt{\\lvert u \\rvert^2 + \\lvert v \\rvert^2}$.",
+    "output": "Thm04 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (perpendicular u v) -> Proof (Eq (length (resultant u v)) (sqrt (plus (square (length u)) (square (length v))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm07. If $p$ and $q$ are prime numbers, then $\\left(\\frac{p}{q}\\right) \\left(\\frac{q}{p}\\right) = (-1)^{\\frac{p-1}{2} \\cdot \\frac{q-1}{2}}$.",
+    "output": "thm07 : (p : Elem Nat) -> (q : Elem Nat) -> Proof (and (prime p) (prime q)) -> Proof (Eq (times (legendre p q) (legendre q p)) (pow (neg 1) (times (div (minus p 1) 2) (div (minus q 1) 2)))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm07. Suppose that $p$ and $q$ are prime numbers. Then $\\left(\\frac{p}{q}\\right) \\left(\\frac{q}{p}\\right) = (-1)^{\\frac{p-1}{2} \\cdot \\frac{q-1}{2}}$.",
+    "output": "thm07 : (p : Elem Nat) -> (q : Elem Nat) -> Proof (and (prime p) (prime q)) -> Proof (Eq (times (legendre p q) (legendre q p)) (pow (neg 1) (times (div (minus p 1) 2) (div (minus q 1) 2)))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm09. Any circle of radius $r$ has area $\\pi r^2$.",
+    "output": "thm09 : (c : Circle) -> (r : Elem Real) -> Proof (Eq r (radius c)) -> Proof (Eq (area c) (times pi (pow r 2))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm09. If a circle has radius $r$ then its area is $\\pi r^2$.",
+    "output": "thm09 : (c : Circle) -> (r : Elem Real) -> Proof (Eq r (radius c)) -> Proof (Eq (area c) (times pi (pow r 2))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm09. The area of a circle is $\\pi r^2$, where $r$ is the radius of the circle.",
+    "output": "thm09 : (c : Circle) -> (r : Elem Real) -> Proof (Eq r (radius c)) -> Proof (Eq (area c) (times pi (pow r 2))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm10FermatLittle. Suppose that $p$ is a prime number and $a$ is an integer. Then $a^p - a = pq$ for some integer $q$.",
+    "output": "thm10FermatLittle : (p : Elem Nat) -> Proof (prime p) -> (a : Elem Int) -> Proof (exists Int (q => Eq (minus (pow a p) a) (times p q))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm10FermatLittle. If $p$ is a prime number and $a$ is an integer, then $p \\mid a^p - a$.",
+    "output": "thm10FermatLittle : (p : Elem Nat) -> Proof (prime p) -> (a : Elem Int) -> Proof (exists Int (q => Eq (minus (pow a p) a) (times p q))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm11. For every $n \\in \\mathbb{N}$, there is a prime $p \\geq n$.",
+    "output": "thm11 : (n : Elem Nat) -> Proof (exists Nat (p => and (Geq p n) (prime p))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm11. There is no natural number which is greater than every prime number.",
+    "output": "thm11 : (n : Elem Nat) -> Proof (exists Nat (p => and (Geq p n) (prime p))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm19. Every natural number can be written as the sum of four squares.",
+    "output": "thm19 : (n : Elem Nat) -> Proof (exists Nat (a => exists Nat (b => exists Nat (c => exists Nat (d => Eq n (plus (plus (plus (square a) (square b)) (square c)) (square d))))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm19. Every natural number can be written in the form $a^2+b^2+c^2+d^2$ where $a, b, c, d \\in \\mathbb{N}$.",
+    "output": "thm19 : (n : Elem Nat) -> Proof (exists Nat (a => exists Nat (b => exists Nat (c => exists Nat (d => Eq n (plus (plus (plus (square a) (square b)) (square c)) (square d))))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm20a. Every prime number of the form $4k+1$ can be written as the sum of two squares.",
+    "output": "thm20a : (p : Elem Nat) -> Proof (prime p) -> (k : Elem Nat) -> Proof (Eq p (plus (times 4 k) 1)) -> Proof (exists Nat (x => exists Nat (y => Eq p (plus (square x) (square y))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm20a. If $p=4k+1$ is a prime number then $p$ can be written as the sum of two squares.",
+    "output": "thm20a : (p : Elem Nat) -> Proof (prime p) -> (k : Elem Nat) -> Proof (Eq p (plus (times 4 k) 1)) -> Proof (exists Nat (x => exists Nat (y => Eq p (plus (square x) (square y))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm20b. Every prime number congruent to $1$ modulo $4$ can be written as the sum of two squares.",
+    "output": "thm20b : (p : Elem Nat) -> Proof (prime p) -> Proof (congruent p 1 4) -> Proof (exists Nat (x => exists Nat (y => Eq p (plus (square x) (square y))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm20b. Suppose $p$ is a prime such that $p \\equiv 1$ (mod 4). Then $p$ can be written as the sum of two squares.",
+    "output": "thm20b : (p : Elem Nat) -> Proof (prime p) -> Proof (congruent p 1 4) -> Proof (exists Nat (x => exists Nat (y => Eq p (plus (square x) (square y))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm22. The set of real numbers is uncountable.",
+    "output": "thm22 : Proof (not (denumerable Real)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm22. There are uncountably many reals.",
+    "output": "thm22 : Proof (not (denumerable Real)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm22. $\\mathbb{R}$ is uncountable.",
+    "output": "thm22 : Proof (not (denumerable Real)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm51wilson. A natural number $n$ is prime iff $(n-1)! \\equiv -1$ (mod $n$).",
+    "output": "thm51wilson : (n : Elem Nat) -> Proof (iff (prime n) (congruent (factorial (minus n 1)) (neg 1) n)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm51b. A natural number $n$ is prime iff $n \\mid (n-1)! + 1$.",
+    "output": "thm51b : (n : Elem Nat) -> Proof (iff (prime n) (divisible (plus (factorial (minus n 1)) 1) n)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm52. If $A$ is a finite set, then $\\lvert P(A) \\rvert = 2^{\\lvert A \\rvert}$.",
+    "output": "thm52 : (A : Set) -> Proof (finite A) -> Proof (Eq (cardinality (powerset A)) (pow 2 (cardinality A))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm52. If $A$ is a finite set, then its powerset has cardinality $2^{\\lvert A \\rvert}$.",
+    "output": "thm52 : (A : Set) -> Proof (finite A) -> Proof (Eq (cardinality (powerset A)) (pow 2 (cardinality A))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm58. There are $\\binom{n}{k}$ ways to choose $k$ items from a set of $n$ items, where $0 \\leq k \\leq n$.",
+    "output": "thm58 : (A : Set) -> (n : Elem Nat) -> Proof (Eq (cardinality A) n) -> (k : Elem Nat) -> Proof (Leq k n) -> Proof (Eq (cardinality (combinationsFromSet A k)) (binomial n k)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm58. A finite set of cardinality $n$ has $\\binom{n}{k}$ subsets of cardinality $k$, where $0 \\leq k \\leq n$.",
+    "output": "thm58 : (A : Set) -> (n : Elem Nat) -> Proof (Eq (cardinality A) n) -> (k : Elem Nat) -> Proof (Leq k n) -> Proof (Eq (cardinality (combinationsFromSet A k)) (binomial n k)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm58. Let $A$ be a finite set of cardinality $n$ and $0 \\leq k \\leq n$. Then $A$ has $\\binom{n}{k}$ subsets of cardinality $k$.",
+    "output": "thm58 : (A : Set) -> (n : Elem Nat) -> Proof (Eq (cardinality A) n) -> (k : Elem Nat) -> Proof (Leq k n) -> Proof (Eq (cardinality (combinationsFromSet A k)) (binomial n k)) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78. $u \\cdot v \\leq \\lvert u \\rvert \\lvert v \\rvert$.",
+    "output": "thm78 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (Leq (dotProduct u v) (times (norm u) (norm v))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78. If $u$ and $v$ are vectors, then $u \\cdot v \\leq \\lvert u \\rvert \\lvert v \\rvert$.",
+    "output": "thm78 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (Leq (dotProduct u v) (times (norm u) (norm v))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78a. If two vectors are orthogonal then their dot product is $0$.",
+    "output": "thm78a : (u : Elem Vector) -> (v : Elem Vector) -> Proof (if (orthogonal u v) (Eq (dotProduct u v) (nd 0))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78a. The dot product of any two orthogonal vectors is $0$.",
+    "output": "thm78a : (u : Elem Vector) -> (v : Elem Vector) -> Proof (if (orthogonal u v) (Eq (dotProduct u v) (nd 0))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78a. If $u \\perp v$ then $u \\cdot v = 0$.",
+    "output": "thm78a : (u : Elem Vector) -> (v : Elem Vector) -> Proof (if (orthogonal u v) (Eq (dotProduct u v) (nd 0))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78a. Let $u$ and $v$ be vectors. If $u \\perp v$ then $u \\cdot v = 0$.",
+    "output": "thm78a : (u : Elem Vector) -> (v : Elem Vector) -> Proof (if (orthogonal u v) (Eq (dotProduct u v) (nd 0))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm78a. If $u$ and $v$ are orthogonal vectors then $u \\cdot v = 0$.",
+    "output": "thm78a : (u : Elem Vector) -> (v : Elem Vector) -> Proof (if (orthogonal u v) (Eq (dotProduct u v) (nd 0))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm91. $\\lvert u+v \\rvert \\leq \\lvert u \\rvert+\\lvert v \\rvert$.",
+    "output": "thm91 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (Leq (norm (vectorPlus u v)) (plus (norm u) (norm v))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm91. Let $u$ and $v$ be vectors. Then $\\lvert u+v \\rvert \\leq \\lvert u \\rvert+\\lvert v \\rvert$.",
+    "output": "thm91 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (Leq (norm (vectorPlus u v)) (plus (norm u) (norm v))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm91. If $u$ and $v$ are vectors, then $\\lvert u+v \\rvert \\leq \\lvert u \\rvert+\\lvert v \\rvert$.",
+    "output": "thm91 : (u : Elem Vector) -> (v : Elem Vector) -> Proof (Leq (norm (vectorPlus u v)) (plus (norm u) (norm v))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm98. For all $n \\in \\mathbb{N}$, there exists a prime between $n$ and $2n$ exclusive.",
+    "output": "thm98 : (n : Elem Nat) -> Proof (exists Nat (p => and (prime p) (and (Lt n p) (Lt p (times 2 n))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm98. For all $n \\in \\mathbb{N}$, there exists a prime between $n+1$ and $2n-1$.",
+    "output": "thm98 : (n : Elem Nat) -> Proof (exists Nat (p => and (prime p) (and (Lt n p) (Lt p (times 2 n))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm98. For all $n \\in \\mathbb{N}$, the interval $(n, 2n)$ contains a prime.",
+    "output": "thm98 : (n : Elem Nat) -> Proof (exists Nat (p => and (prime p) (and (Lt n p) (Lt p (times 2 n))))) ."
+  },
+  {
+    "instruction": "Translate the following Natural_English statement into Dedukti, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
+    "input": "Thm98. For all $n \\in \\mathbb{N}$, there exists a prime $p$ such that $n < p < 2n$.",
+    "output": "thm98 : (n : Elem Nat) -> Proof (exists Nat (p => and (prime p) (and (Lt n p) (Lt p (times 2 n))))) ."
+  }
+]

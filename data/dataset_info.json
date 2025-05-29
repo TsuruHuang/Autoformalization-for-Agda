@@ -1,4 +1,7 @@
 {
+  "natural_test_dedukti_eng": {
+    "file_name": "natural_test_dedukti_eng.json" 
+  },
   "natural_test_agda_eng": {
     "file_name": "natural_test_agda_eng.json"
   },
