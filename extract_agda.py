@@ -1,7 +1,7 @@
 import json
 import os
 
-input_filename = r"/path/to/prediction.jsonl"
+input_filename = r""
 src_name = os.path.splitext(os.path.basename(input_filename))[0]
 output_filename = f"{src_name}.agda"
 

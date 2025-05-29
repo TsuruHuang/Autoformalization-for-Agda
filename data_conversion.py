@@ -4,7 +4,7 @@ import os
 
 random.seed(42)
 
-src_path = r"E:\Project\main\data\full_data_v2.jsonl"
+src_path = r"E:\Project\main\data\natural_test.jsonl"
 src_name = os.path.splitext(os.path.basename(src_path))[0]
 
 with open(src_path, "r", encoding="utf-8") as f:
@@ -22,19 +22,20 @@ train_entries = [data[i] for i in train_idx]
 test_entries = [data[i] for i in test_idx]
 
 # Select the first n natural language expressions (1000 -> all)
-n = 1
+n = 10000
 
 # Define the mapping between natural language and formal language
 nl_map = {
     "InformathEng": "English",
-    "InformathFre": "French",
-    "InformathSwe": "Swedish",
+    #"InformathFre": "French",
+    #"InformathSwe": "Swedish",
+    #"natural": "Natural_English"
 }
 fl_map = {
-    "dedukti": "Dedukti",
+    #"dedukti": "Dedukti",
     "agda": "Agda",
-    "coq": "Coq",
-    "lean": "Lean",
+    #"coq": "Coq",
+    #"lean": "Lean",
 }
 
 # Dynamically generate file names
@@ -84,7 +85,7 @@ def build_dataset(entry_data, n):
                 for sentence in entry[nl_key][:n]: 
                     for fl_key, fl_name in fl_map.items():
                         formatted_data.append({
-                            "instruction": f"Translate the following {nl_name} statement into {fl_name}, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:').\nExample1: \nInput: Translate the following French statement into Coq. Prop70. Nous pouvons démontrer que $1$ est impair. \nOutput: Axiom prop70 : odd 1 . \nExample2: \nInput: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. \nOutput: postulate prop80 : even 2  ",
+                            "instruction": f"Translate the following {nl_name} statement into {fl_name}, Please imitate the input and output examples and output in the specified format. Give me the output text only (without any explains, inputs or 'Output:'). Example: Translate the following English statement into Agda. Prop80. We can prove that $2$ is even. Output Should be like: postulate prop80 : even 2  ",
                             "input": sentence,
                             "output": entry[fl_key]
                         })
