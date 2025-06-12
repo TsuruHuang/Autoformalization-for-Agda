@@ -11,6 +11,44 @@ TBD
 
 在这项工作中，我们在SMAD上微调了开源大语言模型 Qwen2.5-7B[]，首次为 Agda 建立起一个自动形式化系统。为了确保模型测试的可靠性和泛用性，我们采用了同训练集数据所不同来源的Dedukti代码来构建测试集。微调后的模型在测试集上的Blue-4 Score达到了76.16，相较未微调的基线模型的分数51.20上涨了48.75%。其他衡量指标包括ROUGE-1/2/L相较线模型也分别提高了	18.57%/40.44%/38.43%。同时，我们还检查了模型产出的 Agda 代码的语法正确性，相较于基线模型高达83.76%的错误率，微调后的模型的语法错误率急剧下降到不到8%。除此之外，我们也验证了：多种形式化语言和/或多种自然语言联合训练能否帮助提高 Agda，这一代码短缺的形式化语言的自动形式化的翻译质量或者训练效率。实验结果表明，多形式/多自然语言联合训练在 Agda-Eng 样本数量较少的情况下，能够有效提升模型的各项指标，其中 Syntax Error 的降低最为明显。
 
+This work differs from MMA in four key ways:
+
+\begin{itemize}
+    \item Data source: We use the Informath pipeline (GF + Dedukti) to generate formal $\leftrightarrow$ natural pairs with controlled paraphrase diversity, rather than LLM-synthesized informal text.
+    \item Formal systems: We include Agda for the first time in autoformalization experiments, alongside Coq, Lean, and Dedukti.
+    \item Natural languages: We extend to three human languages (English, French, Swedish).
+    \item Smaller Models: We fine-tuned a large language model with fewer parameters and achieved better results.
+\end{itemize}
+
+Our contributions are:
+
+\begin{itemize}
+    \item We introduce SMAD, a 30K size, high-quality, controlled 4-formal - 3-natural parallel dataset for autoformalization.
+    \item We present the first LLM-based autoformalization system for Agda, fine-tuned with Qwen2.5-7B-Instruct on SMAD.
+    \item We systematically verified whether joint language training improves the model's agda autoformalization ability compared to single language training (for formal language and natural language respectively).
+    \item We study of the impact of the proportion of Agda code on joint training in low Agda code scenarios.
+\end{itemize}
+
+**研究问题**
+本文旨在通过微调 LLM 来构建 Agda 的自动形式化系统。同时，我们还有调查了以下研究问题：
+- 什么样的模型以及多大的模型足够完成此项任务并平衡好计算开销和效果
+- 多种形式语言的联合训练是否有助于提升 LLM 翻译 Agda 的质量或训练效率。
+- 同样，多种自然语言的联合训练是否有帮助？
+- Agda代码资源稀缺的场景下，Agda代码的在训练集中的不同占比如何影响模型的性能？
+- 最终模型输出的代码可能出现那些问题？潜在的原因？
+
+**相关工作**
+许多努力有关形式语言的自动化。早期在自动形式化方面的研究将这个问题定义为神经机器翻译任务，Wang等人训练并比较了三种神经网络NMT UNMT XLM的 Mizar 的自动形式化能力。
+大语言模型的兴趣也把自动形式化带到了该领域。Wu 等人探究了未经过微调的大语言模型的自动形式化能力，令人惊喜的是，LLMs正确地将很大一部分 （25.3%） 数学竞赛问题完美地转换为 Isabelle/HOL 的形式规范。
+训练甚至微调LLM需要大型形式化语言-自然语言平行语料库。为了弥补平行语料库的不足，Jiang 等人使用GPT-4 将 Isabelle 和 Lean 的证明回译成英文，创建了 332 K 对的 MMA 数据集，但这样构建的数据集规模足够大，但是质量难以保证：他们的对MMA 数据集的抽样估计显示其翻译准确率仅为 ~74%，而由于噪音和幻觉，由此产生的微调模型仅有 29-31% 的时间产生可接受的证明。
+
+**文章结构**
+第二章 介绍了 论文相关的技术细节
+第三章 介绍了 实验数据集的构建、实验设计、模型选择、训练设置和评估指标。
+第四章 展示了 实验的结果和分析，包括模型选择、多语言联合训练、agda占训练集比例不同的消融实验 以及 基于最终的微调模型的agda自定形式化能力。
+第五章 总结了研究结果并展望了未来工作的方向。
+
+
 ## 2. Background
 
 **Large Language Models**  
@@ -60,7 +98,54 @@ GF 在受控自然语言中特别强大，通过最小化歧义，提高了机�
 **Informath.**  
 Informath 项目借助 GF 和 Dedukti 解决了在多种形式化语言和多种自然语言的数学表达之间进行转换的问题。Informath 的核心结构是一个双向管道：形式化语言（Agda Coq Lean） ↔ Dedukti ↔ MathCore ↔ 自然语言。Dedukti 是形式化语言的 interlingua ，而 MathCore 是自然语言的 interlingua 。通过 MathCore，Informath 可以基于给定的形式化表达，为多种自然语言生成多种表述语句。因此，Informath 提供了一个正式-非正式对的多语言表达多样化数据集，而不依赖于人工翻译或基于 LLM 的 informalization。Informath 的受控语法保证每个生成的自然句子都是形式代码的有效呈现，从而实现高质量的监督训练数据，而不会产生 LLM 幻觉。
 
-**代码**
+
+## 3. Problem Statement
+本文致力于通过微调LLMs为 Agda 构建一个自动形式化系统。同时，我们也致力于验证：多种形式化语言联合训练能否帮助提高 LLMs 翻译 Agda 的质量或训练效率？同样的，多种自然语言的联合训练有帮助吗？为此，我们构建了包含 4 种形式语言和 3 种自然语言的并行数据集 (SMAD)。我们的数据集与 MMA 的不同之处在于：我们不来源于由 LLM 生成的文本，而是依赖基于 GF 的 Informath 项目的多语言生成。在SMAD上不同的切片策略允许我们进行 “all formals languages - English”与 “Agda - English” （多形式语言与单一形式化语言）以及 “Agda - all naturals languages” 与 “Agda - English” （多自然语言与单一自然语言） 等实验。我们还通过对 Agda-English 数据进行下采样来研究Agda代码资源紧缺的场景对于微调后模型的影响。这同时也可以验证，增多 “其他形式化语言-自然语言对” 对于微调后模型的 Agda 自动形式化能力是否有提升。最后，我们还测试了微调后模型的自动非形式化能力，即给模型输入形式化语句，检查输出的自然语言是否符合原意、是否流畅自然。  
+
+## 4. Methodology
+**Datasets**  
+
+我们把本项目通过Informath自主构建的语料库成为 SMAD (Synthetic Multilanguage Autoformalization Dataset)，包含四种形式语言（Agda、Lean、Coq、Dedukti），每种语言都与三种自然语言（英语、法语、瑞典语）的多种描述对齐。SMAD 语料库内部被划分为若干个名为 model_selection、joint_training、parallel-informath 和 final_data 的子集，这些子集根据不同的实验设置进行定制。除非另有说明，下文提及的每个数据集均指这些预定义的 SMAD 子集之一。
+
+\paragraph{Naming Convention}
+The names of the slices for each SMAD subset follow a structured pattern:
+- **SMAD**: The name of the (sub)dataset.  
+- **train/test/all**: Specifies that this is a train/test/non-splited set.  
+- **full**: Includes all formal language - natural language pairs.  
+- **eng**: Includes only formal language - English pairs.  
+- **agda**: Includes only Agda - natural language pairs.  
+- **agda_eng**: Includes only Agda - English pairs.  
+- **small (Optional)**: A subset of the dataset containing 10,000 training samples or 1,000 test samples. This slicing strategy is mainly used for small-scale testing and verification.
+
+For an example：
+- **SMAD_test_agda_eng_small**: A test set which belongs to a slice of the SAMD dataset, containing a small subset of only Agda–English pairs.
+
+另外，如果这些数据集前加上了M_, 则代表经由该数据集微调的模型。
+
+
+
+**Experiment Groups**
+由于初期的实验和数据的获取是同步进行的，所以SMAD数据集其实是在项目过程中不断拓展的。所有的实验涉及到的数据均为SMAD的一部分切片。
+
+We set up six experimental groups (A-F) using different slices of the SMAD dataset according to the experimental purpose:
+| Experiment Group | Training Data Coverage | Purpose |
+|------------------|------------------------|---------|
+| A | Each FL (Dedukti/Agda/Coq/Lean) ↔ English trained independently (4 models) | Baseline: single formal language × English |
+| B | All FL ↔ English combined training (1 model) | Verify the effect of joint training of multiple formal languages |
+| C | Agda ↔ Each NL (English/French/Swedish) trained independently (3 models) | Baseline: single natural language × Agda |
+| D | Agda ↔ All NL combined training (1 model) | Verify the effect of joint training of multiple natural languages |
+| E | All FL ↔ All NL (4×3 total 12 pairs) combined training | Full multi-pair model |
+| F | Only Agda ↔ English, but split into smaller data-scarce scenarios (e.g., 10%, 1%)  to simulate low-resource scenario | Verify the effect of data quantity vs. accuracy |
+
+These groups test the effect of multi-formal languages (A vs B) and multi-natural languages (C vs D) training, as well as scaling of data (A/D vs F experiments).
+
+**Training and Testing setup.**  
+我们在单个 NVIDIA RTX 4090 GPU （ 24GB VRAM ）上使用 LLaMA-Factory 微调了预训练的 Qwen2.5-7B-Instruct 模型。我们使用 LoRA[] 微调：原始模型权重保留冻结的同时，为每一层添加小的低秩矩阵并加以学习训练。我们使用的LoRA 核心参数设置如下：rank r = 8，LoRA alpha = 32，dropout = 0.1. 我们采用动态学习率，初始设定为5e-5。根据数据集的大小，我们设定batch_size=2，同时gradient_accumulation_steps=8，相当于等效2*8=16的batch_size。对于不同的模型我们训练了 1到多个 epoch，以使得每个模型的训练时间/量相同，方便对结果进行比较。例如，对使用最大的一组切片（38,736 examples，全 FL/全 NL ）作为训练集的模型，我们训练了 1 epoch（2,421 个步骤）；而最小的集合（3,228 个 Agda-English）大致需要训练 12 epochs（同样的 2,421 个步骤）才能和前者的训练量持平。
+
+测试 top-k temp
+
+具体的参数代码展示：
+
 训练
 ```
 llamafactory-cli train \
@@ -122,37 +207,9 @@ llamafactory-cli train \
     --adapter_name_or_path saves/Custom/lora/train_dir_name 
 ```
 
-## 3. Problem Statement
-本文致力于通过微调LLMs为 Agda 构建一个自动形式化系统。同时，我们也致力于验证：多种形式化语言联合训练能否帮助提高 LLMs 翻译 Agda 的质量或训练效率？同样的，多种自然语言的联合训练有帮助吗？为此，我们构建了包含 4 种形式语言和 3 种自然语言的并行数据集 (SMAD)。我们的数据集与 MMA 的不同之处在于：我们不来源于由 LLM 生成的文本，而是依赖基于 GF 的 Informath 项目的多语言生成。在SMAD上不同的切片策略允许我们进行 “all formals languages - English”与 “Agda - English” （多形式语言与单一形式化语言）以及 “Agda - all naturals languages” 与 “Agda - English” （多自然语言与单一自然语言） 等实验。我们还通过对 Agda-English 数据进行下采样来研究Agda代码资源紧缺的场景对于微调后模型的影响。这同时也可以验证，增多 “其他形式化语言-自然语言对” 对于微调后模型的 Agda 自动形式化能力是否有提升。最后，我们还测试了微调后模型的自动非形式化能力，即给模型输入形式化语句，检查输出的自然语言是否符合原意、是否流畅自然。  
-
-## 4. Methodology
-**Datasets and experimental groups.** The data involved in the experiment are all from the self-constructed SMAD dataset. The naming convention for the datasets used to train/test the models is as follows:
-- **SMAD**: The name of the dataset.  
-- **train/test/all**: Specifies that this is a train/test/non-splited set.  
-- **full**: Includes all formal language - natural language pairs.  
-- **eng**: Includes only formal language - English pairs.  
-- **agda**: Includes only Agda - natural language pairs.  
-- **agda_eng**: Includes only Agda - English pairs.  
-- **small (Optional)**: A subset of the dataset containing 10,000 training samples or 1,000 test samples. This slicing strategy is mainly used for small-scale testing and verification.
-
-For an example：
-- **SMAD_test_agda_eng_small**: A test set which  belongs to a slice of the SAMD dataset, containing a small subset of only Agda–English pairs.
-
-We set up six experimental groups (A-F) using different slices of the SMAD dataset according to the experimental purpose:
-| Experiment Group | Training Data Coverage | Purpose |
-|------------------|------------------------|---------|
-| A | Each FL (Dedukti/Agda/Coq/Lean) ↔ English trained independently (4 models) | Baseline: single formal language × English |
-| B | All FL ↔ English combined training (1 model) | Verify the effect of joint training of multiple formal languages |
-| C | Agda ↔ Each NL (English/French/Swedish) trained independently (3 models) | Baseline: single natural language × Agda |
-| D | Agda ↔ All NL combined training (1 model) | Verify the effect of joint training of multiple natural languages |
-| E | All FL ↔ All NL (4×3 total 12 pairs) combined training | Full multi-pair model |
-| F | Only Agda ↔ English, but split into smaller data-scarce scenarios (e.g., 10%, 1%)  to simulate low-resource scenario | Verify the effect of data quantity vs. accuracy |
-
-These groups test the effect of multi-formal languages (A vs B) and multi-natural languages (C vs D) training, as well as scaling of data (A/D vs F experiments).
-
-**Training setup.**我们在单个 NVIDIA RTX 4090 GPU （ 24GB VRAM ）上使用 LLaMA-Factory 微调了预训练的 Qwen2.5-7B-Instruct 模型。我们使用 LoRA[] 微调：原始模型权重保留冻结的同时，为每一层添加小的低秩矩阵并加以学习训练。我们使用的LoRA 核心参数设置如下：rank r = 8，LoRA alpha = 32，dropout = 0.1. 我们采用动态学习率，初始设定为5e-5。根据数据集的大小，我们设定batch_size=2，同时gradient_accumulation_steps=8，相当于等效2*8=16的batch_size。对于不同的模型我们训练了 1到多个 epoch，以使得每个模型的训练时间/量相同，方便对结果进行比较。例如，对使用最大的一组切片（38,736 examples，全 FL/全 NL ）作为训练集的模型，我们训练了 1 epoch（2,421 个步骤）；而最小的集合（3,228 个 Agda-English）大致需要训练 12 epochs（同样的 2,421 个步骤）才能和前者的训练量持平。
-
-**Evaluation metrics.**我们通过将微调后模型输出的形式化语言代码与基于SMAD切片的测试集文本进行比较来评估翻译。我们使用 BLEU-4 和 ROUGE-1/2/L评分来衡量模型的质量，这是翻译评估中 n-gram 重叠的标准衡量标准。BLEU侧重于衡量翻译的准确性和精确匹配程度，更偏向于Precision，而ROUGE侧重于衡量摘要的信息完整性和涵盖程度，更偏向于Recall。我们还测量了模型生成的Agda代码的语法错误率：无法解析为语法正确的正式语句的输出比例。最后，为了总结性能，我们采用了自定义分数，定义为：
+**Evaluation metrics.**  
+CodeBlue  
+我们通过将微调后模型输出的形式化语言代码与基于SMAD切片的测试集文本进行比较来评估翻译。我们使用 BLEU-4 和 ROUGE-1/2/L评分来衡量模型的质量，这是翻译评估中 n-gram 重叠的标准衡量标准。BLEU侧重于衡量翻译的准确性和精确匹配程度，更偏向于Precision，而ROUGE侧重于衡量摘要的信息完整性和涵盖程度，更偏向于Recall。我们还测量了模型生成的Agda代码的语法错误率：无法解析为语法正确的正式语句的输出比例。最后，为了总结性能，我们采用了自定义分数，定义为：
 ```
 Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE-L).
 ```
@@ -162,9 +219,9 @@ Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE
 
 - 模型之间的比较  
 
-    在实验的初始阶段，我们使用了不同的开源的大语言模型进行初步的微调，以探究具体哪一个模型更适合Agda的Autoformalization，同时研究什么参数大小的模型能够平衡好Autoformalization和算力、显存等性能开销。
+    在实验的初始阶段，我们尝试了不同的开源的大语言模型进行初步的微调，以探究具体哪一个模型更适合Agda的Autoformalization，同时研究什么参数大小的模型能够平衡好 Autoformalization和算力、显存等性能开销。
 
-    具体而言，我们使用了3个不同的模型，分别是来自Meta的Llama-3.1-8B 和 较新推出的 Llama-3.2-1B，以及 来自Alibaba 的 Qwen2.5-7B。实验数据集被命名为model_selection，属于 SMAD 的子集。这些模型都在 训练集 model_selection_train_agda_eng_single 上进行微调训练(均训练了3 Epochs，保证训练量一致)，在 测试子集 model_selection_test_agda_eng_single 和 model_selection_test_agda_small 上进行性能评估。请注意，由于我们的数据集收集工作和模型实验是同步进行的，所以这里的 数据集划分 并不是最终模型所采用的数据集，实验结果仅作为 大语言模型 选择的参考。
+    具体而言，我们使用了3个不同的模型，分别是来自Meta的Llama-3.1-8B-Instruct 和 较新推出的 Llama-3.2-1B-Instruct，以及 来自Alibaba 的 Qwen2.5-7B-Instruct。用于实验的数据集被命名为model_selection，属于 SMAD 的子集。这些模型都在 训练集 model_selection_train_agda_eng_single 上进行微调训练(均训练了3 Epochs，保证训练量一致)，在 测试子集 model_selection_test_agda_eng_single 和 model_selection_test_agda_small 上进行性能评估。请注意，由于我们的数据集收集工作和模型实验是同步进行的，所以这里的 数据集划分 并不是最终模型所采用的数据集，实验结果仅作为 大语言模型 选择的参考。
 
     具体的实验训练过程和结果汇总如下：
 
@@ -172,26 +229,26 @@ Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE
 
     | Model | Testset (Size) | BLEU-4 | ROUGE-1 | ROUGE-2 | ROUGE-L | Syntax Error % |
     |--------|-------------|------------|------------|------------|------------|------------|
-    | **Qwen2.5-7B** | model_selection_test_agda_eng_single (351) | 98.62 | 99.45 | 99.11 | 98.95 | 10 (2.85%) |
+    | **Qwen2.5-7B-Instruct** | model_selection_test_agda_eng_first1 (351) | 98.62 | 99.45 | 99.11 | 98.95 | 10 (2.85%) |
     |  | model_selection_test_agda_small (1000) | 94.85 | 97.22 | 95.80 | 96.59  | 111 (11.1%)|
-    | **Llama-3.1-8B** | model_selection_test_agda_eng_single (351) | 98.67 | 99.43 | 99.10 | 98.94 | 11 (3.13%) |
+    | **Llama3.1-8B-Instruct** | model_selection_test_agda_eng_first1 (351) | 98.67 | 99.43 | 99.10 | 98.94 | 11 (3.13%) |
     |  | model_selection_test_agda_small (1000) | 96.23 | 97.82 | 96.64 | 97.52 | 122 (12.2%)|
-    | **Llama-3.2-1B** | model_selection_test_agda_eng_single (351) | 98.29 | 99.29 | 98.91 | 98.67 | 18 (5.13%) |
+    | **Llama3.2-1B-Instruct** | model_selection_test_agda_eng_first1 (351) | 98.29 | 99.29 | 98.91 | 98.67 | 18 (5.13%) |
     |  | model_selection_test_agda_small (1000) | 80.45 | 89.32 | 82.94 | 85.50 | 361 (36.1%)|
 
-    结合性能指标与模型规模，我们最终选择 Qwen2.5-7B 作为后续微调的主模型，主要基于以下几点考量：
+    结合性能指标与模型规模，我们最终选择 Qwen2.5-7B-Instruct 作为后续微调的主模型，主要基于以下几点考量：
 
     1. 卓越的性能—高准确率与低语法错误率  
-        - 在 model_selection_test_agda_eng_single 上，Qwen2.5-7B 的 BLEU-4（98.62）及各项 ROUGE 指标均与其他两款模型不相上下，且语法错误率仅为 2.85%，最低among all。  
-        - 在更大规模的 model_selection_test_agda_small 上，其性能仅次于 Llama-3.1-8B，但语法错误率（11.10%）仍优于 Llama-3.1-8B（12.20%）及远低于 Llama-3.2-1B（36.10%）。  
+        - 在 model_selection_test_agda_eng_single 上，Qwen2.5-7B-Instruct 的 BLEU-4（98.62）及各项 ROUGE 指标均与其他两款模型不相上下，且语法错误率仅为 2.85%，最低among all。  
+        - 在更大规模的 model_selection_test_agda_small 上，其性能仅次于 Llama3.1-8B-Instruct，但语法错误率（11.10%）仍优于 Llama3.1-8B-Instruct（12.20%）及远低于 Llama3.2-1B-Instruct（36.10%）。  
     2. 资源与效率—平衡模型规模与开销  
-        - Qwen2.5-7B 相较于 Llama-3.1-8B（8B 参数）具有更少的参数量（7B），在显存占用和推理速度方面更具优势；相比 Llama-3.2-1B（1B 参数）性能有明显优势，语法正确性也更可靠。  
+        - Qwen2.5-7B-Instruct 相较于 Llama3.1-8B-Instruct具有更少的参数量，在显存占用和推理速度方面更具优势；相比 Llama3.2-1B性能有明显优势，语法正确性也更可靠。  
+        - 7–8B 参数规模的模型在我们的初步实验中已表现出优异的学习能力与效果，足以满足 Autoformalization 任务需求。   
         - 更大的模型（>8B 参数）会带来显著的算力和时间开销，增加显存需求和推理时延，不利于实验可重复性和部署。  
-        - 7–8B 参数规模的模型在我们的初步实验中已表现出优异的学习能力与效果，足以满足 Autoformalization 任务需求。  
     3. 后续新模型的考虑
-        虽然 Llama-4、Qwen-3 等更大、更先进的模型已经发布，但由于本次实验与数据划分流程在这些新模型问世前已经完成，且受限于已有算力环境与时间安排，故未能纳入本研究。
+        虽然 Llama4、Qwen3 等更大、更先进的模型已经发布，但由于本次实验与数据划分流程在这些新模型问世前已经完成，且受限于已有算力环境与时间安排，故未能纳入本研究。
 
-    总而言之，Qwen2.5-7B 在性能与资源开销间达到了更优的折中，故被选为后续 Autoformalization 实验的基础模型。
+    总而言之，Qwen2.5-7B-Instruct 在性能与资源开销间达到了更优的折中，故被选为后续 Autoformalization 实验的基础模型。
 
 
 - 多语言联合训练
@@ -200,7 +257,7 @@ Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE
 
     我们设置了两组实验组，采用了不同的从SMAD划分的数据集，分别命名为 joint_training 和 parallel-informath (joint_training 数据集 包含了 model_selection 数据集 的内容。)。每组实验的测试集和训练集都会基于对应的数据集进行进一步划分。两个数据集的主要区别在于，joint_training每一个形式化语言代码只对应了一句自然语言，而 parallel-informath 的每一个形式化语言代码都对应了多句不同的自然语言。两个数据集所包含的形式化语言代码均不相同。为了平衡数据量，parallel-informath 所包含的不重复形式化语言代码数量相对更少。为了平衡训练量，我们对于不同的切片采取不同Epochs的策略，以期最后的训练步数大致一样。
     
-    我们也在两组实验的测试集上都测试了未微调的Qwen2.5-7B模型。由于如果完全不进行任何提示词工程，除了我们所需的形式化语言代码之外，模型会默认输出一大串解释性语言或者其他的内容来让输出显得充实和人性化。但我们不需要这些内容，甚至这些和代码无关的内容会严重干扰我们计算未微调模型的Blue-4/Rouge分数。所以，相较于原本的测试集，我们在instruction部分做出了一些修改，具体而言，我们添加了一些限定性描述与并给出了一个把英语转化为Agda代码的例子以供模型模仿。下面是其中的一个示例，高亮的部分代表为测试未微调模型新添加的提示词prompt：
+    我们也在两组实验的测试集上都测试了未微调的Qwen2.5-7B-Instruct模型。由于如果完全不进行任何提示词工程，除了我们所需的形式化语言代码之外，模型会默认输出一大串解释性语言或者其他的噪声。这些和代码无关的内容会严重干扰我们计算未微调模型的Blue-4/Rouge分数。所以，相较于原本的测试集，我们在instruction部分做出了一些修改，具体而言，采取了一种类似one-shot learning的方式，添加了一些限定性描述，并给出了一个把英语转化为Agda代码的例子以供模型模仿。下面是其中的一个示例，高亮的部分代表为测试未微调模型新添加的提示词prompt：
 
     ```
       {
@@ -210,7 +267,7 @@ Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE
   },
     ```
 
-    可以看见，我们给与模型的有关把Eng转化为Agda的例子十分简短且简单，任何经过了预训练的大语言模型都能够轻易地知道 $2$ is even 这一事实。更多地是提示模型该以如何的形式输出 Agda 代码。可以认为这样的提示词对于提升未微调模型的自动形式化能力的影响微乎其微，不会影响实验的结果。我们之后所有的有关未微调模型的测试的数据集都依照此模式构建。
+    可以看出，我们提供的 one-shot 示例 只包含非常基础的模式演示：“2 is even → postulate prop80 : even 2”，该示例所阐述的数学事实对任何大型预训练模型而言都是显而易见的，重点在于演示输出 Agda 代码时的格式，而非为模型提供额外语义线索。因此，这种提示对未微调模型的实际自动形式化性能影响极小，其输出能够较为公正地作为baseline，衡量后续微调后模型的提升。后续所有测试未微调模型的数据集均采用这一模式设计，以保持一致性。
 
     各实验训练具体的数据量和实验结果如下表所述：
 
@@ -234,15 +291,97 @@ Score = 0.35*(1 – ERROR%) * 100 + 0.35*BLEU-4 + 0.1*(ROUGE-1 + ROUGE-2 + ROUGE
 
     By comparison, we can find that:
 
-    - **基准模型与微调后模型：** (1 vs 3/9)对于未微调的模型，其在测试集上的BLEU-4分数达到了51.20，然而语法错误率却高达为 83.76%，属于明显不可用的情况，综合分数42.46。相较之下，即使是最差的微调后的模型的BLEU-4分数也达到了85.71，相较基线提升了67.38%，语法错误率也急剧下降至13.04%，综合分数达86.86，提升了104.57%。对于最好的模型，语法错误率下降到只有3.62%.
-    - **Effect of joint training:** (2 vs 5) Although multi-formal/multi-natural language joint training has little help on the main indicators when the amount of data is large enough, on the contrary, multi-task joint training has learned how to translate other formal/natural language without significantly damaging the performance of main target (translate between Agda-English), and the training cost (number of steps/time) has nearly no increase.
-    - **Training under Low-resource:** (6 vs 9) Multi-formal/multi-natural joint training can effectively improve various indicators of the model when the number of Agda-Eng samples is small, among which the reduction of Syntax Error is the most obvious.
+    - **基准模型与微调后模型：**  对于未微调的模型，其在测试集上的BLEU-4分数虽然达到了51.20，然而语法错误率却高达为 83.76%，属于明显不可用的情况，综合分数42.46。相较之下，即使是最差的微调后的模型的BLEU-4分数也达到了85.71，相较基线提升了67.38%，语法错误率也急剧下降至13.04%，综合分数达86.86，提升了104.57%。对于最好的模型，语法错误率下降到只有3.62%.
+    - **大样本场景下的“饱和”效应:**   在数据量足够大的情况下，即使引入了多种形式化或多种自然语言，核心指标（BLEU-4、ROUGE 系列）均已接近 99%，语法错误率降至 3–5% 以下。虽然多语言联合训练相较于仅Agda-eng对训练，各个指标有所提升，但幅度明显偏小。这说明，当agda code样本足够多时，模型已能充分学习 Agda-English 的映射，多语言信息带来的增益趋于边际递减。但也可以相反地说，多任务联合训练学会了如何翻译其他形式/自然语言，并且不显著损害主要目标（Agda-English 之间的翻译）的性能，并且训练成本（步数/时间）几乎没有增加。
+    - **小样本场景下的互补优势:** 多形式和多自然联合训练可以在Agda code样本数量较少的情况下更有效地提升模型的各项指标，其中Syntax Error的降低最为明显，从13.04%下降至7.67%。这表明，当 Agda–English 样本稀缺时，额外的 Lean、Coq、Dedukti 等形式化语言版本，以及 French、Swedish 等多自然语言表述，能够为模型提供语义与结构上的互补提示，从而极大地增强其自动形式化能力。
 
-- Ratio Test
+- Ablation Study on Agda Data Ratios
+
+    在上文“多语言联合训练”中，我们已经观察到多形式化语言并行示例能在 Agda–English 样本稀缺时显著提升性能。为了深入剖析 Agda 数据量在训练集中的占比在低资源场景下的作用，本节基于 joint_training 数据集，构建了多个不同形式化语言比例的切片实验。各训练集的 Agda 与 Dedukti 示例数量如下：
+            agda    dedukti
+    训练集1 500 0
+        2  500 500
+        3   125 500
+        4   500 2000
+        5   2000 500
+        6   500 125
+
+    实验结果汇总如下：
+
+    loss figure
+
+    table
+
+    可以得知：  
+    1. Agda 独立示例（切片 1）
+    仅包含 500 条 Agda 示例时，模型 BLEU-4 跃升至 97.73，语法错误率骤降至 5%。与 Baseline（52.56/93%）相比，单一 Agda 数据已能极大地改善性能，表明模型对 Agda→English 的学习能力很强。
+    2. 平衡多语言（切片 2）
+    当 Agda 与 Dedukti 示例等量（500/500）时，BLEU-4 进一步提升至 98.35，语法错误率降至 4%。适量的 Dedukti 示例能为模型提供额外的结构多样性，有助于微量改善。
+    3. 低 Agda 高 Dedukti（切片 3）
+    将 Agda 降至 125 条、Dedukti 保持 500 条，性能略降（BLEU-4 96.74，错率 10%），但仍远超基线，说明 Dedukti 示例可在 Agda 样本极度匮乏时提供有效补充。
+    4. 高 Dedukti 配比（切片 4）
+    当 Dedukti 大幅增加至 2000 条（Agda = 500），模型 BLEU-4 为 98.11，错率为 7%。Dedukti 比重过大反而略微降低语法准确性，提示非目标语言样本不能无限制堆叠。
+    5. 高 Agda 较少 Dedukti（切片 5）
+    Agda 升至 2000 条、Dedukti 500 条时，获得最高 BLEU-4 = 98.59、ROUGE-1 = 99.02，错率 5%。更多 Agda 样本依旧是提升核心性能的最直接方式。
+    6. 微量 Dedukti 辅助（切片 6）
+    在 500:125 的比例下，模型语法错误率降至最低的 2%，且 BLEU-4 达 98.18。这表明在 Agda 样本充足时，少量 Dedukti 示例即可带来格式或结构层面的微调优化。
+
+    小结：
+    - 主导因素：Agda 示例数量是提升核心任务性能的首要因素——从 500 到 2000，BLEU-4 有稳定增长。
+    - 辅助增益：Dedukti 数据在 Agda 极少或适量场景下，能提供互补信息，进一步降低语法错误；但过量堆叠时效果递减甚至出现倒退。
 
 - 最终模型
 
+    在前文第 4.1–4.3 节中，各模型在使用 Informath 生成的数据上均取得了接近 90–100 的 BLEU-4 和 ROUGE 分数；而一般自然语言翻译任务中，BLEU-4 在 70 左右即可算优秀，其得分之高显然存在 数据偏倚。正如之前提到的，这些数据来自不同的领域，经由 Informath 生成后随即划分为训练集和测试集。生成的数据可能导致模型学习到了潜在的固定模式，导致在测试集上轻易获得高分。或者，由于我们收集到的数据的领域还不够广，导致模型的自动形式化能力局限在给出的领域之中。
+
+    为消除这种偏倚，我们重新设计了训练集与测试集的构建逻辑：
+    - 对于训练集，final_training，其主要由简单的数学定义组成，旨在让模型先掌握形式化语言的基础语法知识等
+    - 测试集 final_testing则由数学定理组成，其来源是 100 Theorem。
+    
+    我们这样子划分数据集的主要考量是：我们认为这可以部分反映出人是如何学习的：首先接触到定义，再从定于引申到定理。并且这样的划分很好地限制了模型训练集中涉及到的领域知识，可能可以优化其泛化能力。此外，为了进一步保证模型的对于自然语言的泛化能力，我们还手工编译了一个对照数据集。其形式化代码与 final_testing 相同，但自然语言由人工翻译而成。
+
+    基于4.2和4.3的实验结果，我们我们在 final_training 中采取多形式化语言与多自然语言联合训练，并且各形式化语言在数据集中的占比保持一致，以最大可能地提升我们模型的自动形式化能力。
+
+    训练的结果如下：
+
+    loss figuire
+    table
+
+    可以看到，
+    
+    - 单轮训练效果最佳：
+      - 只训练了一个epoch的模型得到的blue-4/rouge分数虽然相较之前的模型均有所下降，但是最核心的指标 syntax-error rate相较于 M_parallel-informath_full并没有下降多少。
+      - 而blue-4/rouge分数的下降也是可以理解的，因为基准模型在final_testing上的表示相较之前也出现了明显下降。比较BLEU-4/rouge Δ% ，可以发现模型比之前的基于joint_training训练的所有模型的提升都要大。这显示本次数据集重构有效激发了模型对从定义到定理的迁移学习能力。
+    - 过度训练导致过拟合或语义偏移
+      - 遗憾地是，训练了3个epoch的模型虽然blue-4/rouge分数有微小提升，但其syntax-error rate出现了严重下降，倒逼20.5%。
+      - 我们认为这很可能是模型在更多地训练步骤中出现了过拟合，或更多地学习了非 Agda 形式的表达模式，从而损害核心任务的表现。
+
+    结论：重构后的数据集显著缓解了之前数据集的 偏倚问题，并使模型在更具挑战性的情景下获得了更真实的能力评估。一次 epoch 的联合训练已能最大化学习收益，而进一步训练则可能因过拟合或非目标语言干扰而反噬性能。
+
+- Evaluation on Natural Statements
+
+    实验的最后，我们挑选了几个典型模型，评估了它们在人工编写的自然语言上的自动形式化表现，来测试其的泛化能力。下表直观地展示了人工编写的自然语言和informath生成的表达上的区别，可以看到，人工编写的更多地灵活使用了符号、公式等来简化自己的表达，而不像informath生成的 刻板的执意把所有的内容转化为英文。
+
+    Table:
+
+    Agda| Synthetic Data |Natural Statements
+    postulate Thm01 : (m : Nat) -> (n : Nat) -> Neq n 0 -> Neq (pow (div m n) 2) 2 | Thm01. Let $m$ and $n$ be instances of natural numbers. Assume that we can prove that $n$ is not equal to $0$. Then we can prove that the exponentiation of the quotient of $m$ and $n$ and $2$ is not equal to $2$. | Thm01. If $m \\in \\mathbb{N}$ and $n \\in \\mathbb{N}^+$ then $(m/n)^2 \\neq 2$.
+    postulate thm09 : (c : Circle) -> (r : Real) -> Eq r (radius c) -> Eq (area c) (times pi (pow r 2)) | Thm09. Let $c$ be a circle. Let $r$ be an instance of real numbers. Assume that we can prove that $r$ is equal to the radius of $c$. Then we can prove that the area of $c$ is equal to the product of the number \\(\\pi\\) and the exponentiation of $r$ and $2$. | Thm09. Any circle of radius $r$ has area $\\pi r^2$..
+    实验的结果如下：
+    BaseLine	32.83555614	44.83432281	15.85780351	37.8481614	53	92.98245614
+    M_joint_training_full_first1	60.36734912	74.00472281	52.22222807	68.1175807	10	17.54385965
+    M_joint_training_agda_eng_first1	65.00015789	76.66436667	55.4756193	70.90232456	10	17.54385965
+    M_epoch_1 	68.66773509	79.61366842	61.96763333	73.83541053	5	8.771929825
+    M_epoch_3	65.56373158	78.03136316	59.66466667	70.90742807	13	22.80701754
+    
+    可以看到：
+    - 之前在joint_training上训练的模型的BLUE-4/ROUGE 分数出现了显著地下滑，BLUE-4从接近98%直接下降到60-65. Syntax Error rate 也从3-5%下滑到17%。虽然表现出现了这么严重的下降，但仍相较于未微调的模型提升明显。
+    - 最终的模型展现出了强大的泛化能力，BLUE-4/ROUGE 分数下降并不显著，同时Syntax Error rate也和在原本测试集上的表现几乎一致
+    - 值得注意是，训练了3个epoch的模型的相较只训练了一个epoch的模型之间的表现差距 明显扩大，M_epoch_3之前在BLUE-4/ROUGE 分数的领先优势荡然无存，充分显示出其泛化能力不如M_epoch_1，表明我们之前做出的关于其过拟合或者非目标语言干扰而反噬性能的判断是准确的。
+    
+
 - Case Study
+    考虑到模型输出的大部分错误都是Unsupported Infix Operators，我们设法把将微调预测的中缀作规范化为有效的函数调用。在此更改之后，57 个预测公式中有 23 个是类型正确的。原本有13个Syntax Err也降至只有2个。这表明，通过的输出可以通过简单的修复就能够达到完全可用的级别。
 
 ## 6. Conclusion
 我们通过在SMAD数据集上使用 LoRA 微调 Qwen2.5-7B，达到了出色的 BLEU、 ROUGE 分数以及令人惊喜的语法错误率。我们的工作是第一个将 Agda 纳入微调大语言模型以自动形式化的工作。同时，实验还表明：对于Agda资源稀缺的情况，跨语言的联合训练可以略微提升模型的性能。而对于丰富数据状态下，跨语言的联合训练在不损失训练质量的同时，大大提升了训练的效率。原先专门训练单一形式化语言的时间可以同时训练4种不同的形式化语言。
